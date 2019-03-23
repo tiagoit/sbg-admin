@@ -19,7 +19,7 @@
   - don't override index.html
 - Deploy the website `$ firebase deploy`
 - Check [sulbaguia.firebaseapp.com](https://sulbaguia.firebaseapp.com)
-- **IMPORTANT:** Only use the deploy script `$ ./scripts/deploy.sh`
+- **IMPORTANT:** Always use the package.json scripts to serve and deploy.
 
 
 ## Deploy to App Engine (LEGACY)
