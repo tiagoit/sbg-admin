@@ -28,7 +28,7 @@ export class AddEventComponent implements OnInit {
     this.fg = fb.group({
       start: ['', Validators.required],
       startTime: [],
-      org_code: ['', Validators.required],
+      org: ['', Validators.required],
       title: ['', Validators.required],
       featured: ['']
     });
@@ -45,10 +45,10 @@ export class AddEventComponent implements OnInit {
     this.newEvent.start = dateWithTime;
 
     this.orgs.forEach(org => {
-      if(org.code === this.fg.controls.org_code.value) {
-        this.newEvent.org_code = org.code;
-        this.newEvent.org_name = org.name;
-        this.newEvent.org_city = org.address.city;
+      if(org.name === this.fg.controls.org.value) {
+        this.newEvent['org'] = org.name;
+        this.newEvent['city'] = org.address.city;
+        this.newEvent['city'] = org.address.city;
       }
     });
 
@@ -78,7 +78,6 @@ export class AddEventComponent implements OnInit {
   upload(file: File, idx: number) {
     this.uploadService.upload(file).subscribe(event => {
       if(event.type === HttpEventType.Response) {
-        console.log('upload finished: ', event.body);
         this.newEvent.images[idx] = event.body.gcsPublicUrl;
       }
     });

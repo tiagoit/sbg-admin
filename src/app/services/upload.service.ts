@@ -20,7 +20,6 @@ export class UploadService {
   }
 
   public delete(fileUrl: String): Observable<any> {
-    console.log('delete: ', fileUrl);
     const req = new HttpRequest('DELETE', this.url, {fileUrl: fileUrl});
     return this.http.request(req);
   }

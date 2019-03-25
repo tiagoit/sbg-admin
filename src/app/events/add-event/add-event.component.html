@@ -4,13 +4,13 @@
 
   <!-- TITLE -->
   <mat-form-field>
-    <input #firstInput matInput formControlName="title" placeholder="Título" required tabindex="1">
+    <input #firstInput matInput formControlName="title" placeholder="Título" required tabindex="1" maxlength="35">
   </mat-form-field>
 
   <!-- ORG -->
   <mat-form-field>
-    <mat-select required formControlName="org_code" tabindex="2">
-      <mat-option *ngFor="let org of orgs" [value]="org.code">{{org.name}}</mat-option>
+    <mat-select required formControlName="org" tabindex="2">
+      <mat-option *ngFor="let org of orgs" [value]="org.name">{{org.name}}</mat-option>
     </mat-select>
     <mat-label>Organização</mat-label>
   </mat-form-field>

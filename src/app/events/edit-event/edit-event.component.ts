@@ -26,7 +26,7 @@ export class EditEventComponent implements OnInit {
     this.fg = fb.group({
       start: ['', Validators.required],
       startTime: [],
-      org_code: ['', Validators.required],
+      org: ['', Validators.required],
       title: ['', Validators.required],
       featured: ['']
     });
@@ -40,41 +40,16 @@ export class EditEventComponent implements OnInit {
       this.service.getById(p.id).subscribe(storedEvent => {
         this.event = storedEvent;
         this.fillForm(storedEvent);
-
-
-        // var request = new XMLHttpRequest();
-        // request.open('GET', this.event.images[0], true);
-        // request.responseType = 'blob';
-        // request.onload = function() {
-        //     var reader = new FileReader();
-        //     reader.readAsDataURL(request.response);
-        //     reader.onload =  function(e){
-        //         console.log('DataURL:', e.target['result']);
-        //     };
-        // };
-        // request.send();
-
-        
-        // let reader = new FileReader();
-        // // new File("/path/to/file");
-        // reader.readAsDataURL(this.event.images[0].toBlob());
-        // reader.onload = (_event) => {
-        //   this.imgPreview[0] = reader.result;
-        // }
       })
     });
-
-
   }
 
   fillForm(storedEvent) {
     this.fg.controls.start.setValue(storedEvent.start);
     this.fg.controls.startTime.setValue(new Date(storedEvent.start).getUTCHours());
-    this.fg.controls.org_code.setValue(storedEvent.org_code);
+    this.fg.controls.org.setValue(storedEvent.org);
     this.fg.controls.title.setValue(storedEvent.title);
     this.fg.controls.featured.setValue(storedEvent.featured);
-
-    // this.files.push(event.images)
   }
 
   update() {
@@ -85,20 +60,17 @@ export class EditEventComponent implements OnInit {
     event.start = dateWithTime;
 
     this.orgs.forEach(org => {
-      if(org.code === this.fg.controls.org_code.value) {
-        event.org_code = org.code;
-        event.org_name = org.name;
-        event.org_city = org.address.city;
+      if(org.name === this.fg.controls.org.value) {
+        event.org = org.name;
+        event.city = org.address.city;
       }
     });
-    
+
     event._id       = this.event._id;
     event.title     = this.fg.controls.title.value;
     event.featured  = this.fg.controls.featured.value;
 
     event.images = this.event.images;
-
-    console.log('Event to update: ', event);
 
     this.service.update(event).subscribe((res) => {
       this.snackBar.open('Evento atualizado com sucesso!', null, {duration: 2000});
@@ -124,7 +96,6 @@ export class EditEventComponent implements OnInit {
     let fileToDeleteUrl = this.event.images[idx];
     this.uploadService.upload(file).subscribe(event => {
       if(event.type === HttpEventType.Response) {
-        console.log('upload finished: ', event.body);
         this.event.images[idx] = event.body.gcsPublicUrl;
       }
     });

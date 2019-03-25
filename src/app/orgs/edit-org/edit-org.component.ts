@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrgService } from "../org.service";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,13 +12,13 @@ import { CityService } from '../../cities/city.service';
   styleUrls: ['./edit-org.component.scss']
 })
 export class EditOrgComponent implements OnInit {
+  @ViewChild("firstInput") firstInput: ElementRef;
   org: any;
   fg: FormGroup;
   cities: City[];
 
   constructor(private route: ActivatedRoute, private service: OrgService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, private cityService: CityService) {
     this.fg = fb.group({
-      code: ['', Validators.required],
       name: ['', Validators.required],
       mobile: [''],
       land: [''],
@@ -31,7 +31,7 @@ export class EditOrgComponent implements OnInit {
       street: [''],
       number: [''],
       complement: [''],
-      zip_code: [''],
+      zipCode: [''],
     
       contact_name: [''],
       contact_email: [''],
@@ -47,15 +47,14 @@ export class EditOrgComponent implements OnInit {
       this.service.getById(p.id).subscribe(org => {
         this.org = org;
         this.fillForm();
+        this.firstInput.nativeElement.focus();
       })
     });
   }
 
   fillForm() {
-    this.fg.controls.code.setValue(this.org.code);
     this.fg.controls.name.setValue(this.org.name);
 
-    this.fg.controls.code.setValue(this.org.code)
     this.fg.controls.name.setValue(this.org.name)
     this.fg.controls.mobile.setValue(this.org.mobile)
     this.fg.controls.land.setValue(this.org.land)
@@ -68,19 +67,18 @@ export class EditOrgComponent implements OnInit {
     this.fg.controls.street.setValue(this.org.address.street)
     this.fg.controls.number.setValue(this.org.address.number)
     this.fg.controls.complement.setValue(this.org.address.complement)
-    this.fg.controls.zip_code.setValue(this.org.address.zip_code)
+    this.fg.controls.zipCode.setValue(this.org.address.zipCode)
   
-    this.fg.controls.contact_name.setValue(this.org.contact[0].name)
-    this.fg.controls.contact_email.setValue(this.org.contact[0].email)
-    this.fg.controls.contact_mobile.setValue(this.org.contact[0].mobile)
-    this.fg.controls.contact_role.setValue(this.org.contact[0].role)
-    this.fg.controls.contact_notes.setValue(this.org.contact[0].notes)
+    this.fg.controls.contact_name.setValue(this.org.contacts[0].name)
+    this.fg.controls.contact_email.setValue(this.org.contacts[0].email)
+    this.fg.controls.contact_mobile.setValue(this.org.contacts[0].mobile)
+    this.fg.controls.contact_role.setValue(this.org.contacts[0].role)
+    this.fg.controls.contact_notes.setValue(this.org.contacts[0].notes)
   }
 
   update() {
     let org: Org = new Org();
     org._id       = this.org._id;
-    org.code      = this.fg.controls.code.value;
     org.name      = this.fg.controls.name.value;
     org.mobile    = this.fg.controls.mobile.value;
     org.land      = this.fg.controls.land.value;
@@ -94,13 +92,13 @@ export class EditOrgComponent implements OnInit {
     org.address.street        = this.fg.controls.street.value;
     org.address.number        = this.fg.controls.number.value;
     org.address.complement    = this.fg.controls.complement.value;
-    org.address.zip_code      = this.fg.controls.zip_code.value;
+    org.address.zipCode      = this.fg.controls.zipCode.value;
   
-    org.contact.name    = this.fg.controls.contact_name.value;
-    org.contact.email   = this.fg.controls.contact_email.value;
-    org.contact.mobile  = this.fg.controls.contact_mobile.value;
-    org.contact.role    = this.fg.controls.contact_role.value;
-    org.contact.notes   = this.fg.controls.contact_notes.value;
+    org.contacts[0].name    = this.fg.controls.contact_name.value;
+    org.contacts[0].email   = this.fg.controls.contact_email.value;
+    org.contacts[0].mobile  = this.fg.controls.contact_mobile.value;
+    org.contacts[0].role    = this.fg.controls.contact_role.value;
+    org.contacts[0].notes   = this.fg.controls.contact_notes.value;
 
     this.service.update(org).subscribe((res) => {
       this.snackBar.open('Organização atualizada com sucesso!', null, {duration: 2000});

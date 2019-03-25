@@ -67,8 +67,8 @@ export class ListEventsDataSource extends DataSource<Event> {
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
         case 'start': return compare(a.start, b.start, isAsc);
-        case 'org_name': return compare(a.org_name, b.org_name, isAsc);
-        case 'org_city': return compare(a.org_city, b.org_city, isAsc);
+        case 'org': return compare(a['org'], b['org'], isAsc);
+        case 'city': return compare(a['city'], b['city'], isAsc);
         case 'title': return compare(a.title, b.title, isAsc);
         default: return 0;
       }
@@ -76,7 +76,7 @@ export class ListEventsDataSource extends DataSource<Event> {
   }
 }
 
-/** Simple sort comparator for example ID/Name columns (for client-side sorting). */
+/** Simple sort comparator for example ID/ columns (for client-side sorting). */
 function compare(a, b, isAsc) {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

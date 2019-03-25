@@ -18,7 +18,6 @@ export class AddOrgComponent implements OnInit {
 
   constructor(fb: FormBuilder, private service: OrgService, private router: Router, public snackBar: MatSnackBar, private cityService: CityService) {
     this.fg = fb.group({
-      code: ['', Validators.required],
       name: ['', Validators.required],
       mobile: [''],
       land: [''],
@@ -31,7 +30,7 @@ export class AddOrgComponent implements OnInit {
       street: [''],
       number: [''],
       complement: [''],
-      zip_code: [''],
+      zipCode: [''],
     
       contact_name: [''],
       contact_email: [''],
@@ -48,7 +47,6 @@ export class AddOrgComponent implements OnInit {
 
   save() {
     let org: Org = new Org();
-    org.code = this.fg.controls.code.value;
     org.name = this.fg.controls.name.value;
     org.mobile = this.fg.controls.mobile.value;
     org.land = this.fg.controls.land.value;
@@ -62,13 +60,13 @@ export class AddOrgComponent implements OnInit {
     org.address.street = this.fg.controls.street.value;
     org.address.number = this.fg.controls.number.value;
     org.address.complement = this.fg.controls.complement.value;
-    org.address.zip_code = this.fg.controls.zip_code.value;
+    org.address.zipCode = this.fg.controls.zipCode.value;
   
-    org.contact.name = this.fg.controls.contact_name.value;
-    org.contact.email = this.fg.controls.contact_email.value;
-    org.contact.mobile = this.fg.controls.contact_mobile.value;
-    org.contact.role = this.fg.controls.contact_role.value;
-    org.contact.notes = this.fg.controls.contact_notes.value;
+    org.contacts[0].name = this.fg.controls.contact_name.value;
+    org.contacts[0].email = this.fg.controls.contact_email.value;
+    org.contacts[0].mobile = this.fg.controls.contact_mobile.value;
+    org.contacts[0].role = this.fg.controls.contact_role.value;
+    org.contacts[0].notes = this.fg.controls.contact_notes.value;
     
     this.service.add(org).subscribe((res) => {
       this.snackBar.open('Organização adicionada com sucesso!', null, {duration: 2000});

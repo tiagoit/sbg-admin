@@ -67,7 +67,6 @@ export class ListCitiesDataSource extends DataSource<City> {
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
         case 'name': return compare(a.name, b.name, isAsc);
-        case 'code': return compare(a.code, b.code, isAsc);
         default: return 0;
       }
     });

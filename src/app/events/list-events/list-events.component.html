@@ -6,16 +6,16 @@
       <td mat-cell *matCellDef="let row">{{row.start | date:  'dd/MM - H\'h\''}}</td>
     </ng-container>
 
-    <!-- org_name Column -->
-    <ng-container matColumnDef="org_name">
+    <!-- org Column -->
+    <ng-container matColumnDef="org">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Local</th>
-      <td mat-cell *matCellDef="let row">{{row.org_name}}</td>
+      <td mat-cell *matCellDef="let row">{{row.org}}</td>
     </ng-container>
 
-    <!-- org_city Column -->
-    <ng-container matColumnDef="org_city">
+    <!-- city Column -->
+    <ng-container matColumnDef="city">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Cidade</th>
-      <td mat-cell *matCellDef="let row">{{row.org_city}}</td>
+      <td mat-cell *matCellDef="let row">{{row.city}}</td>
     </ng-container>
 
     <!-- title Column -->

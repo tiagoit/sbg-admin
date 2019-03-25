@@ -4,13 +4,13 @@
 
   <!-- TITLE -->
   <mat-form-field>
-    <input matInput #firstInput formControlName="title" placeholder="Título" required tabindex="1">
+    <input matInput #firstInput formControlName="title" placeholder="Título" required tabindex="1" maxlength="35">
   </mat-form-field>
 
-  <!-- ORG_CODE -->
+  <!-- org -->
   <mat-form-field>
-    <mat-select required formControlName="org_code" tabindex="2">
-      <mat-option *ngFor="let org of orgs" [value]="org.code">{{org.name}}</mat-option>
+    <mat-select required formControlName="org" tabindex="2">
+      <mat-option *ngFor="let org of orgs" [value]="org.name">{{org.name}}</mat-option>
     </mat-select>
     <mat-label>Organização</mat-label>
   </mat-form-field>
@@ -24,9 +24,9 @@
   <div class="start">
     <!-- TODO: Disable input -->
     <mat-form-field class="date">
-      <input matInput formControlName="start" [matDatepicker]="startPicker" placeholder="Data" tabindex="3">
+      <input matInput formControlName="start" [matDatepicker]="startPicker" placeholder="Data" (focus)="startPicker.open()" tabindex="3">
       <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-      <mat-datepicker #startPicker></mat-datepicker>
+      <mat-datepicker #startPicker touchUi></mat-datepicker>
     </mat-form-field>
     <mat-form-field class="time">
       <mat-select required formControlName="startTime" tabindex="4">
@@ -43,7 +43,7 @@
     <mat-datepicker #endPicker></mat-datepicker>
   </mat-form-field> -->
   
-  <mat-checkbox formControlName="featured" tabindex="">Destaque</mat-checkbox>
+  <mat-checkbox formControlName="featured" tabindex="5">Destaque</mat-checkbox>
 
   <!-- <img [src]="event?.images[0]" alt=""> -->
 
@@ -85,8 +85,8 @@
     </div>
   </div>  
 
-  <button mat-raised-button color="accent" [disabled]="!fg.valid" (click)="update()" tabindex="5">Atualizar</button>
-  <button id="cancel" mat-raised-button color="primary" (click)="cancel()" tabindex="6">Cancelar</button>
+  <button mat-raised-button color="accent" [disabled]="!fg.valid" (click)="update()" tabindex="10">Atualizar</button>
+  <button id="cancel" mat-raised-button color="primary" (click)="cancel()" tabindex="11">Cancelar</button>
 
 </form>
   
