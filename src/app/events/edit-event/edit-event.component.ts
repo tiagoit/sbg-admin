@@ -28,6 +28,7 @@ export class EditEventComponent implements OnInit {
       startTime: [],
       org: ['', Validators.required],
       title: ['', Validators.required],
+      description: [''],
       featured: ['']
     });
   }
@@ -49,6 +50,7 @@ export class EditEventComponent implements OnInit {
     this.fg.controls.startTime.setValue(new Date(storedEvent.start).getUTCHours());
     this.fg.controls.org.setValue(storedEvent.org);
     this.fg.controls.title.setValue(storedEvent.title);
+    this.fg.controls.description.setValue(storedEvent.description);
     this.fg.controls.featured.setValue(storedEvent.featured);
   }
 
@@ -68,6 +70,7 @@ export class EditEventComponent implements OnInit {
 
     event._id       = this.event._id;
     event.title     = this.fg.controls.title.value;
+    event.description     = this.fg.controls.description.value;
     event.featured  = this.fg.controls.featured.value;
 
     event.images = this.event.images;

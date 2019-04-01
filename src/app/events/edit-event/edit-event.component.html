@@ -2,50 +2,42 @@
 
   <h2>Editar Evento</h2>
 
-  <!-- TITLE -->
   <mat-form-field>
     <input matInput #firstInput formControlName="title" placeholder="Título" required tabindex="1" maxlength="35">
   </mat-form-field>
 
-  <!-- org -->
   <mat-form-field>
-    <mat-select required formControlName="org" tabindex="2">
+    <textarea matInput formControlName="description" placeholder="Descrição" required tabindex="2" maxlength="255"></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select required formControlName="org" tabindex="3">
       <mat-option *ngFor="let org of orgs" [value]="org.name">{{org.name}}</mat-option>
     </mat-select>
     <mat-label>Organização</mat-label>
   </mat-form-field>
   
-  <!-- IMG -->
-  <!-- <mat-form-field>
-    <input matInput formControlName="img" placeholder="Imagem" required>
-  </mat-form-field> -->
-
-  <!-- START -->
   <div class="start">
-    <!-- TODO: Disable input -->
     <mat-form-field class="date">
-      <input matInput formControlName="start" [matDatepicker]="startPicker" placeholder="Data" (focus)="startPicker.open()" tabindex="3">
+      <input matInput formControlName="start" [matDatepicker]="startPicker" placeholder="Data" (focus)="startPicker.open()" tabindex="4">
       <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
       <mat-datepicker #startPicker touchUi></mat-datepicker>
     </mat-form-field>
     <mat-form-field class="time">
-      <mat-select required formControlName="startTime" tabindex="4">
+      <mat-select required formControlName="startTime" tabindex="5">
         <mat-option *ngFor="let t of timeOptions" [value]="t">{{t}}h</mat-option>
       </mat-select>
       <mat-label>Horário</mat-label>
     </mat-form-field>
   </div>
 
-  <!-- END -->
   <!-- <mat-form-field>
     <input matInput formControlName="end" [matDatepicker]="endPicker" placeholder="Término">
     <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
     <mat-datepicker #endPicker></mat-datepicker>
   </mat-form-field> -->
   
-  <mat-checkbox formControlName="featured" tabindex="5">Destaque</mat-checkbox>
-
-  <!-- <img [src]="event?.images[0]" alt=""> -->
+  <mat-checkbox formControlName="featured" tabindex="6">Destaque</mat-checkbox>
 
   <div class="row images">
     <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
@@ -54,7 +46,7 @@
         <img [src]="event?.images[0]" *ngIf="event?.images[0] && !imgPreview[0]">
       </div>
       <input #file0 type="file" accept='image/*' (change)="preview(file0.files, 0)"/>
-      <button mat-raised-button color="primary" (click)="file0.click()" tabindex="6">Imagem 1</button>
+      <button mat-raised-button color="primary" (click)="file0.click()" tabindex="7">Imagem 1</button>
     </div>
 
     <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
@@ -63,7 +55,7 @@
         <img [src]="event?.images[1]" *ngIf="event?.images[1] && !imgPreview[1]">
       </div>
       <input #file1 type="file" accept='image/*' (change)="preview(file1.files, 1)"/>
-      <button mat-raised-button color="primary" (click)="file1.click()" tabindex="7">Imagem 2</button>
+      <button mat-raised-button color="primary" (click)="file1.click()" tabindex="8">Imagem 2</button>
     </div>
 
     <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
@@ -72,7 +64,7 @@
         <img [src]="event?.images[2]" *ngIf="event?.images[2] && !imgPreview[2]">
       </div>
       <input #file2 type="file" accept='image/*' (change)="preview(file2.files, 2)"/>
-      <button mat-raised-button color="primary" (click)="file2.click()" tabindex="8">Imagem 3</button>
+      <button mat-raised-button color="primary" (click)="file2.click()" tabindex="9">Imagem 3</button>
     </div>
   
     <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
@@ -81,12 +73,12 @@
         <img [src]="event?.images[3]" *ngIf="event?.images[3] && !imgPreview[3]">
       </div>
       <input #file3 type="file" accept='image/*' (change)="preview(file3.files, 3)"/>
-      <button mat-raised-button color="primary" (click)="file3.click()" tabindex="9">Imagem 4</button>
+      <button mat-raised-button color="primary" (click)="file3.click()" tabindex="10">Imagem 4</button>
     </div>
   </div>  
 
-  <button mat-raised-button color="accent" [disabled]="!fg.valid" (click)="update()" tabindex="10">Atualizar</button>
-  <button id="cancel" mat-raised-button color="primary" (click)="cancel()" tabindex="11">Cancelar</button>
+  <button mat-raised-button color="accent" [disabled]="!fg.valid" (click)="update()" tabindex="11">Atualizar</button>
+  <button id="cancel" mat-raised-button color="primary" (click)="cancel()" tabindex="12">Cancelar</button>
 
 </form>
   

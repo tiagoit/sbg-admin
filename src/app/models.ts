@@ -3,7 +3,8 @@ export class Event {
     start: Date;
     org: String;
     city: String;
-    title: string;
+    title: String;
+    description: Text;
     images: String[];
     featured: Boolean;
 

@@ -30,6 +30,7 @@ export class AddEventComponent implements OnInit {
       startTime: [],
       org: ['', Validators.required],
       title: ['', Validators.required],
+      description: [''],
       featured: ['']
     });
   }
@@ -52,8 +53,9 @@ export class AddEventComponent implements OnInit {
       }
     });
 
-    this.newEvent.title     = this.fg.controls.title.value;
-    this.newEvent.featured  = this.fg.controls.featured.value || false;
+    this.newEvent.title       = this.fg.controls.title.value;
+    this.newEvent.description = this.fg.controls.description.value;
+    this.newEvent.featured    = this.fg.controls.featured.value || false;
 
     this.service.add(this.newEvent).subscribe((res) => {
       this.snackBar.open('Evento adicionado com sucesso!', null, {duration: 2000});
