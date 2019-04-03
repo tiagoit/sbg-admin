@@ -5,9 +5,9 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { HttpClient, HttpEventType, HttpResponse } from '@angular/common/http';
 
+import { UploadService } from '../../services/upload.service';
 import { OrgService } from '../../orgs/org.service';
 import { Org, Event } from '../../models';
-import { UploadService } from 'src/app/services/upload.service';
 
 @Component({
   templateUrl: './add-event.component.html',

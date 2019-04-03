@@ -5,7 +5,7 @@ import { CityService } from '../city.service';
 import { Router } from '@angular/router';
 import { City } from "../../models";
 import { DialogConfirm } from '../../angular-material-components/dialog-confirm.component';
-
+import { AppService } from 'app/services/app.service';
 
 @Component({
   selector: 'app-list-cities',
@@ -21,25 +21,32 @@ export class ListCitiesComponent implements OnInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['name', 'actions'];
 
-  constructor(private service: CityService, private router: Router, public dialog: MatDialog, public snackBar: MatSnackBar) {}
+  constructor(private service: CityService, private router: Router, public dialog: MatDialog, public snackBar: MatSnackBar, private appService: AppService) {}
 
-  ngOnInit() { this.getCities() }
+  ngOnInit() { this.get() }
 
-  getCities() {
+  get(afterDelete?: Boolean) {
+    if(!afterDelete) this.appService.startLoad('cities-get');
     this.service.get().subscribe((data: City[]) => {
       this.dataSource = new ListCitiesDataSource(this.paginator, this.sort, data);
+      if(afterDelete) {
+        this.appService.stopLoad('cities-delete');
+        this.snackBar.open('Cidade removida.', null, {duration: 2000});
+      } else {
+        this.appService.stopLoad('cities-get');
+      }
     });
   }
 
-  edit(id) { this.router.navigate([`/cities/edit/${id}`])}
-  add() { this.router.navigate([`/cities/add`])}
+  edit(id: String) { this.router.navigate([`/cities/edit/${id}`])}
+  add() { this.router.navigate(['/cities/add'])}
 
-  delete(id, title) {
+  delete(id: String, title: String) {
     const dialogRef = this.dialog.open(DialogConfirm, {width: '320px', data: {title: title}});
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.service.delete(id).subscribe(() => this.getCities());
-        this.snackBar.open('Cidade removida.', null, {duration: 2000});
+        this.appService.startLoad('orgs-delete');
+        this.service.delete(id).subscribe(() => this.get(true));
       }
     });
   }

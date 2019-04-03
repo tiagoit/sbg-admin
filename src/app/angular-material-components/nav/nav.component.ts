@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
+import { AppService } from 'app/services/app.service';
 
 @Component({
   selector: 'app-nav',
@@ -17,7 +18,7 @@ export class NavComponent {
       map(result => result.matches)
     );
 
-  constructor(public auth: AuthService, private router: Router, private breakpointObserver: BreakpointObserver) {}
+  constructor(private router: Router, private breakpointObserver: BreakpointObserver, public auth: AuthService, public appService: AppService) {}
 
   logout() {
     this.auth.logout();

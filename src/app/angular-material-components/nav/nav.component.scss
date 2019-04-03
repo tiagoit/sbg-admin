@@ -15,3 +15,14 @@
   top: 0;
   z-index: 1;
 }
+
+mat-progress-bar {
+  top: 0;
+  z-index: inherit;
+  position: fixed;
+  display: none;
+}
+
+mat-progress-bar.active {
+  display: block;
+}

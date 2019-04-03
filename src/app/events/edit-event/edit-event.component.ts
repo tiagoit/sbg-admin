@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EventService } from "../event.service";
+import { HttpEventType } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { Event, Org } from '../../models';
 import { OrgService } from '../../orgs/org.service';
-import { UploadService } from 'src/app/services/upload.service';
-import { HttpEventType } from '@angular/common/http';
+import { UploadService } from '../../services/upload.service';
+import { EventService } from "../event.service";
 
 @Component({
   selector: 'app-edit-event',

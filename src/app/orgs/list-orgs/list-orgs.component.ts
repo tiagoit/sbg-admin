@@ -5,7 +5,7 @@ import { OrgService } from '../org.service';
 import { Router } from '@angular/router';
 import { Org } from "../../models";
 import { DialogConfirm } from '../../angular-material-components/dialog-confirm.component';
-
+import { AppService } from 'app/services/app.service';
 
 @Component({
   selector: 'app-list-orgs',
@@ -21,25 +21,32 @@ export class ListOrgsComponent implements OnInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['name', 'city', 'mobile', 'status', 'actions'];
 
-  constructor(private service: OrgService, private router: Router, public dialog: MatDialog, public snackBar: MatSnackBar) {}
+  constructor(private service: OrgService, private router: Router, public dialog: MatDialog, public snackBar: MatSnackBar, private appService: AppService) {}
 
-  ngOnInit() { this.getOrgs() }
+  ngOnInit() { this.get() }
 
-  getOrgs() {
+  get(afterDelete?: Boolean) {
+    if(!afterDelete) this.appService.startLoad('orgs-get');
     this.service.get().subscribe((data: Org[]) => {
       this.dataSource = new ListOrgsDataSource(this.paginator, this.sort, data);
+      if(afterDelete) {
+        this.appService.stopLoad('orgs-delete');
+        this.snackBar.open('Organização removida.', null, {duration: 2000});
+      } else {
+        this.appService.stopLoad('orgs-get');
+      }
     });
   }
 
-  edit(id) { this.router.navigate([`/orgs/edit/${id}`])}
-  add() { this.router.navigate([`/orgs/add`])}
+  edit(id: String) { this.router.navigate([`/orgs/edit/${id}`])}
+  add() { this.router.navigate(['/orgs/add'])}
 
-  delete(id, title) {
+  delete(id: String, title: String) {
     const dialogRef = this.dialog.open(DialogConfirm, {width: '320px', data: {title: title}});
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.service.delete(id).subscribe(() => this.getOrgs());
-        this.snackBar.open('Organização removida.', null, {duration: 2000});
+        this.appService.startLoad('orgs-delete');
+        this.service.delete(id).subscribe(() => this.get(true));
       }
     });
   }
