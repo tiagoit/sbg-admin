@@ -77,8 +77,8 @@
     </div>
   </div>  
 
-  <button mat-raised-button color="accent" [disabled]="!fg.valid" (click)="update()" tabindex="11">Atualizar</button>
-  <button id="cancel" mat-raised-button color="primary" (click)="cancel()" tabindex="12">Cancelar</button>
+  <button mat-raised-button color="accent" [disabled]="!fg.valid || appService.isLoading()" (click)="update()" tabindex="11">Atualizar</button>
+  <button id="cancel" mat-raised-button color="primary" (click)="cancel()" tabindex="12" [disabled]="appService.isLoading()">Cancelar</button>
 
 </form>
   

@@ -7,6 +7,7 @@ import { Event, Org } from '../../models';
 import { OrgService } from '../../orgs/org.service';
 import { UploadService } from '../../services/upload.service';
 import { EventService } from "../event.service";
+import { AppService } from 'app/services/app.service';
 
 @Component({
   selector: 'app-edit-event',
@@ -22,7 +23,7 @@ export class EditEventComponent implements OnInit {
   imgPreview: any[] = [];
   files: File[] = [];
 
-  constructor(private route: ActivatedRoute, private service: EventService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, private orgService: OrgService, public uploadService: UploadService) {
+  constructor(private route: ActivatedRoute, private service: EventService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, private orgService: OrgService, public uploadService: UploadService, public appService: AppService) {
     this.fg = fb.group({
       start: ['', Validators.required],
       startTime: [],
@@ -34,15 +35,15 @@ export class EditEventComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.firstInput.nativeElement.focus();
-    this.orgService.get().subscribe((orgs: Org[]) => this.orgs = orgs);
-
-    this.route.params.subscribe(p => {
-      this.service.getById(p.id).subscribe(storedEvent => {
-        this.event = storedEvent;
-        this.fillForm(storedEvent);
-      })
+    this.appService.startLoad('events-edit-load-orgs');
+    this.orgService.get().subscribe((orgs: Org[]) => {
+      this.appService.stopLoad('events-edit-load-orgs');
+      this.orgs = orgs;
     });
+    this.event = this.route.snapshot.data.event;
+    this.fillForm(this.event);
+    this.firstInput.nativeElement.focus();
+    this.appService.stopLoad('events-edit-load-data');
   }
 
   fillForm(storedEvent) {
@@ -55,6 +56,7 @@ export class EditEventComponent implements OnInit {
   }
 
   update() {
+    this.appService.startLoad('events-edit');
     let event: Event = new Event();
 
     let dateWithTime: Date = new Date(this.fg.controls.start.value);
@@ -76,6 +78,7 @@ export class EditEventComponent implements OnInit {
     event.images = this.event.images;
 
     this.service.update(event).subscribe((res) => {
+      this.appService.stopLoad('events-edit');
       this.snackBar.open('Evento atualizado com sucesso!', null, {duration: 2000});
       this.router.navigate([`/events`]);
     });
@@ -96,12 +99,14 @@ export class EditEventComponent implements OnInit {
   }
 
   upload(file: File, idx: number) {
+    this.appService.startLoad('events-edit-image-'+idx);
+
     let fileToDeleteUrl = this.event.images[idx];
     this.uploadService.upload(file).subscribe(event => {
       if(event.type === HttpEventType.Response) {
         this.event.images[idx] = event.body.gcsPublicUrl;
       }
-    });
+    }).add(() => this.appService.stopLoad('events-edit-image-'+idx));
     this.uploadService.delete(fileToDeleteUrl);
   }
 

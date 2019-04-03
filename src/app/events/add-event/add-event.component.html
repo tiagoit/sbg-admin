@@ -7,7 +7,7 @@
   </mat-form-field>
 
   <mat-form-field>
-    <textarea matInput formControlName="description" placeholder="Descrição" required tabindex="2" maxlength="255"></textarea>
+    <textarea matInput formControlName="description" placeholder="Descrição" tabindex="2" maxlength="255"></textarea>
   </mat-form-field>
   
   <mat-form-field>
@@ -65,7 +65,7 @@
     </div>
   </div>
 
-
-  <button id="save" mat-raised-button color="accent" [disabled]="!fg.valid" (click)="save()" tabindex="11">Salvar</button>
+  <button id="save" mat-raised-button color="accent" [disabled]="!fg.valid || appService.isLoading()" (click)="save()" tabindex="11">Salvar</button>
+  <button mat-raised-button color="primary" (click)="backToList()" [disabled]="appService.isLoading()">Cancelar</button>
 
 </form>

@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { City, Org } from '../../models';
 import { CityService } from '../../cities/city.service';
+import { AppService } from 'app/services/app.service';
 
 @Component({
   selector: 'app-edit-org',
@@ -17,7 +18,7 @@ export class EditOrgComponent implements OnInit {
   fg: FormGroup;
   cities: City[];
 
-  constructor(private route: ActivatedRoute, private service: OrgService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, private cityService: CityService) {
+  constructor(private route: ActivatedRoute, private service: OrgService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, private cityService: CityService, public appService: AppService) {
     this.fg = fb.group({
       name: ['', Validators.required],
       mobile: [''],
@@ -42,14 +43,15 @@ export class EditOrgComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.cityService.get().subscribe((cities: City[]) => this.cities = cities);
-    this.route.params.subscribe(p => {
-      this.service.getById(p.id).subscribe(org => {
-        this.org = org;
-        this.fillForm();
-        this.firstInput.nativeElement.focus();
-      })
+    this.appService.startLoad('orgs-edit-load-cities');
+    this.cityService.get().subscribe((cities: City[]) => {
+      this.appService.stopLoad('orgs-edit-load-cities');
+      this.cities = cities;
     });
+    this.org = this.route.snapshot.data.org;
+    this.fillForm();
+    this.firstInput.nativeElement.focus();
+    this.appService.stopLoad('orgs-edit-load-data');
   }
 
   fillForm() {
@@ -77,6 +79,7 @@ export class EditOrgComponent implements OnInit {
   }
 
   update() {
+    this.appService.startLoad('orgs-edit')
     let org: Org = new Org();
     org._id       = this.org._id;
     org.name      = this.fg.controls.name.value;
@@ -101,6 +104,7 @@ export class EditOrgComponent implements OnInit {
     org.contacts[0].notes   = this.fg.controls.contact_notes.value;
 
     this.service.update(org).subscribe((res) => {
+      this.appService.stopLoad('orgs-edit')
       this.snackBar.open('Organização atualizada com sucesso!', null, {duration: 2000});
       this.router.navigate([`/orgs`]);
     });

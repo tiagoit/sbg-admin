@@ -21,7 +21,7 @@ export class ListOrgsComponent implements OnInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['name', 'city', 'mobile', 'status', 'actions'];
 
-  constructor(private service: OrgService, private router: Router, public dialog: MatDialog, public snackBar: MatSnackBar, private appService: AppService) {}
+  constructor(private service: OrgService, private router: Router, public dialog: MatDialog, public snackBar: MatSnackBar, public appService: AppService) {}
 
   ngOnInit() { this.get() }
 
@@ -38,7 +38,10 @@ export class ListOrgsComponent implements OnInit {
     });
   }
 
-  edit(id: String) { this.router.navigate([`/orgs/edit/${id}`])}
+  edit(id: String) { 
+    this.appService.startLoad('orgs-edit-load-data');
+    this.router.navigate([`/orgs/edit/${id}`]);
+  }
   add() { this.router.navigate(['/orgs/add'])}
 
   delete(id: String, title: String) {

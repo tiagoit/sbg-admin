@@ -7,6 +7,6 @@
     <input #firstInput matInput formControlName="name" placeholder="Nome" required>
   </mat-form-field>
 
-  <button mat-raised-button color="accent" [disabled]="!fg.valid" (click)="save()">Salvar</button>
-  <button mat-raised-button color="primary" (click)="cancel()">Cancelar</button>
+  <button mat-raised-button color="accent" (click)="save()" [disabled]="!fg.valid || appService.isLoading()">Salvar</button>
+  <button mat-raised-button color="primary" (click)="backToList()" [disabled]="appService.isLoading()">Cancelar</button>
 </form>

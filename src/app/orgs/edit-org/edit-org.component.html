@@ -96,8 +96,8 @@
       <input matInput formControlName="contact_notes" placeholder="Notas do contato">
     </mat-form-field>
   
-    <button mat-raised-button class="last" color="accent" [disabled]="!fg.valid" (click)="update()">Atualizar</button>
-    <button mat-raised-button class="mb-4" color="primary" (click)="cancel()">Cancelar</button>
+    <button mat-raised-button class="last" color="accent" (click)="update()" [disabled]="!fg.valid || appService.isLoading()">Atualizar</button>
+    <button mat-raised-button class="mb-4" color="primary" (click)="cancel()" [disabled]="appService.isLoading()">Cancelar</button>
   
   </form>
   

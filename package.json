@@ -4,11 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --prod",
-    "start-local": "ng serve",
+    "start-local": "ng serve --open",
     "build": "ng build --prod",
-    "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
     "deploy-only": "firebase deploy",
     "deploy": "npm run build && npm run deploy-only"
   },

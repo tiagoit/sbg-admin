@@ -1,12 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Event } from 'app/models';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EventService {
+export class EventService implements Resolve<Event>{
   url = `${environment.API_URL}/events`;
+
+  // Resolver for `/edit/:id` route.
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any>|Promise<any>|any {
+    return this.getById(route.params.id);
+  }
 
   constructor(private http: HttpClient) { }
   
@@ -14,7 +22,7 @@ export class EventService {
     return this.http.get(this.url);
   }
   
-  getById(id) {
+  getById(id: String) {
     return this.http.get(`${this.url}/${id}`);
   }
   
@@ -26,7 +34,7 @@ export class EventService {
     return this.http.post(this.url, data);
   }
   
-  delete(id) {
+  delete(id: String) {
     return this.http.delete(`${this.url}/${id}`);
   }
 }

@@ -29,10 +29,10 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let row">
-        <button mat-icon-button (click)="edit(row._id)">
+        <button mat-icon-button (click)="edit(row._id)" [disabled]="appService.isLoading()">
           <mat-icon aria-label="Edit">edit</mat-icon>
         </button>
-        <button mat-icon-button (click)="delete(row._id, row.title)">
+        <button mat-icon-button (click)="delete(row._id, row.title)" [disabled]="appService.isLoading()">
           <mat-icon aria-label="Delete">delete</mat-icon>
         </button>
       </td>

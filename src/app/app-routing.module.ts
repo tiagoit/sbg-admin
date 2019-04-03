@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Injectable } from '@angular/core';
 import { ModuleWithProviders } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 import { LoginComponent } from './auth/login/login.component';
 import { AuthGuard } from './auth/auth.guard';
@@ -17,23 +17,26 @@ import { ListOrgsComponent } from "./orgs/list-orgs/list-orgs.component";
 import { AddOrgComponent } from "./orgs/add-org/add-org.component";
 import { EditOrgComponent } from "./orgs/edit-org/edit-org.component";
 
+import { CityService } from './cities/city.service';
+import { EventService } from "./events/event.service";
+import { OrgService } from "./orgs/org.service";
 
 const routes: Routes = [
   { path: '', redirectTo: '/events', pathMatch: 'full' },
 
-  { path: 'login', component: LoginComponent},
+  { path: 'login', component: LoginComponent },
 
   { path: 'events', component: ListEventsComponent, canActivate: [AuthGuard] },
   { path: 'events/add', component: AddEventComponent, canActivate: [AuthGuard] },
-  { path: 'events/edit/:id', component: EditEventComponent, canActivate: [AuthGuard] },
+  { path: 'events/edit/:id', component: EditEventComponent, canActivate: [AuthGuard], resolve: { event: EventService } },
 
   { path: 'cities', component: ListCitiesComponent, canActivate: [AuthGuard] },
   { path: 'cities/add', component: AddCityComponent, canActivate: [AuthGuard] },
-  { path: 'cities/edit/:id', component: EditCityComponent, canActivate: [AuthGuard] },
+  { path: 'cities/edit/:id', component: EditCityComponent, canActivate: [AuthGuard], resolve: { city: CityService } },
 
   { path: 'orgs', component: ListOrgsComponent, canActivate: [AuthGuard] },
   { path: 'orgs/add', component: AddOrgComponent, canActivate: [AuthGuard] },
-  { path: 'orgs/edit/:id', component: EditOrgComponent, canActivate: [AuthGuard] }
+  { path: 'orgs/edit/:id', component: EditOrgComponent, canActivate: [AuthGuard], resolve: { org: OrgService }  }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);
@@ -43,3 +46,4 @@ export const routing: ModuleWithProviders = RouterModule.forRoot(routes);
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+ 

@@ -8,6 +8,7 @@ import { HttpClient, HttpEventType, HttpResponse } from '@angular/common/http';
 import { UploadService } from '../../services/upload.service';
 import { OrgService } from '../../orgs/org.service';
 import { Org, Event } from '../../models';
+import { AppService } from 'app/services/app.service';
 
 @Component({
   templateUrl: './add-event.component.html',
@@ -24,7 +25,7 @@ export class AddEventComponent implements OnInit {
   newEvent: Event = new Event();
 
   constructor(fb: FormBuilder, private service: EventService, private router: Router, public snackBar: MatSnackBar,
-    private orgService: OrgService, private http: HttpClient, private el: ElementRef, public uploadService: UploadService) {
+    private orgService: OrgService, private http: HttpClient, private el: ElementRef, public uploadService: UploadService, public appService: AppService) {
     this.fg = fb.group({
       start: ['', Validators.required],
       startTime: [],
@@ -36,11 +37,16 @@ export class AddEventComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.orgService.get().subscribe((orgs: Org[]) => this.orgs = orgs);
+    this.appService.startLoad('events-add-load-orgs');
+    this.orgService.get().subscribe((orgs: Org[]) => {
+      this.appService.stopLoad('events-add-load-orgs');
+      this.orgs = orgs;
+    });
     this.firstInput.nativeElement.focus();
   }
 
   save() {
+    this.appService.startLoad('events-add');
     let dateWithTime: Date = new Date(this.fg.controls.start.value);
     dateWithTime.setHours(this.fg.controls.startTime.value);
     this.newEvent.start = dateWithTime;
@@ -58,6 +64,7 @@ export class AddEventComponent implements OnInit {
     this.newEvent.featured    = this.fg.controls.featured.value || false;
 
     this.service.add(this.newEvent).subscribe((res) => {
+      this.appService.stopLoad('events-add');
       this.snackBar.open('Evento adicionado com sucesso!', null, {duration: 2000});
       this.router.navigate([`/events`]);
     })
@@ -78,11 +85,17 @@ export class AddEventComponent implements OnInit {
   }
 
   upload(file: File, idx: number) {
+    this.appService.startLoad('events-add-image-'+idx);
+
     this.uploadService.upload(file).subscribe(event => {
       if(event.type === HttpEventType.Response) {
         this.newEvent.images[idx] = event.body.gcsPublicUrl;
       }
-    });
+    }).add(() => this.appService.stopLoad('events-add-image-'+idx));
+  }
+  
+  backToList() {
+    this.router.navigate([`/events`]);
   }
 }
 

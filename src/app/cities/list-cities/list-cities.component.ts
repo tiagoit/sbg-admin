@@ -21,7 +21,7 @@ export class ListCitiesComponent implements OnInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['name', 'actions'];
 
-  constructor(private service: CityService, private router: Router, public dialog: MatDialog, public snackBar: MatSnackBar, private appService: AppService) {}
+  constructor(private service: CityService, private router: Router, public dialog: MatDialog, public snackBar: MatSnackBar, public appService: AppService) {}
 
   ngOnInit() { this.get() }
 
@@ -38,14 +38,17 @@ export class ListCitiesComponent implements OnInit {
     });
   }
 
-  edit(id: String) { this.router.navigate([`/cities/edit/${id}`])}
+  edit(id: String) { 
+    this.appService.startLoad('cities-edit-load-data');
+    this.router.navigate([`/cities/edit/${id}`])
+  }
   add() { this.router.navigate(['/cities/add'])}
 
   delete(id: String, title: String) {
     const dialogRef = this.dialog.open(DialogConfirm, {width: '320px', data: {title: title}});
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.appService.startLoad('orgs-delete');
+        this.appService.startLoad('cities-delete');
         this.service.delete(id).subscribe(() => this.get(true));
       }
     });

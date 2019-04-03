@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CityService } from "../city.service";
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
+import { AppService } from 'app/services/app.service';
 
 @Component({
   selector: 'app-edit-city',
@@ -14,20 +15,18 @@ export class EditCityComponent implements OnInit {
   city: any;
   fg: FormGroup;
 
-  constructor(private route: ActivatedRoute, private service: CityService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar) {
+
+  constructor(private route: ActivatedRoute, private service: CityService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, public appService: AppService) {
     this.fg = fb.group({
       name: ['', Validators.required]
     });
   }
 
   ngOnInit() {
-    this.route.params.subscribe(p => {
-      this.service.getById(p.id).subscribe(city => {
-        this.city = city;
-        this.fillForm(city);
-        this.firstInput.nativeElement.focus();
-      })
-    });
+    this.city = this.route.snapshot.data.city;
+    this.fillForm(this.city);
+    this.firstInput.nativeElement.focus();
+    this.appService.stopLoad('cities-edit-load-data');
   }
 
   fillForm(city) {
@@ -35,17 +34,19 @@ export class EditCityComponent implements OnInit {
   }
 
   update() {
+    this.appService.startLoad('cities-edit');
     let data = {};
-    data['_id']       = this.city._id;
-    data['name']  = this.fg.controls.name.value;
+    data['_id'] = this.city._id;
+    data['name'] = this.fg.controls.name.value;
 
     this.service.update(data).subscribe((res) => {
+      this.appService.stopLoad('cities-edit');
       this.snackBar.open('Cidade atualizada com sucesso!', null, {duration: 2000});
       this.router.navigate([`/cities`]);
     });
   }
 
-  cancel() {
+  backToList() {
     this.router.navigate(['/cities']);
   }
 

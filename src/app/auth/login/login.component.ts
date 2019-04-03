@@ -13,7 +13,7 @@ export class LoginComponent {
   public password: string;
   public error: string;
 
-  constructor(private router: Router, private auth: AuthService, private appService: AppService) { }
+  constructor(private router: Router, private auth: AuthService, public appService: AppService) { }
 
   public submit() {
     this.appService.startLoad('login');

@@ -21,7 +21,7 @@ export class ListEventsComponent implements OnInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['start', 'org', 'city', 'title', 'actions'];
 
-  constructor(private service: EventService, private router: Router, public dialog: MatDialog, public snackBar: MatSnackBar, private appService: AppService) {}
+  constructor(private service: EventService, private router: Router, public dialog: MatDialog, public snackBar: MatSnackBar, public appService: AppService) {}
 
   ngOnInit() { this.get() }
 
@@ -38,7 +38,10 @@ export class ListEventsComponent implements OnInit {
     });
   }
 
-  edit(id: String) { this.router.navigate([`/events/edit/${id}`])}
+  edit(id: String) { 
+    this.appService.startLoad('events-edit-load-data');
+    this.router.navigate([`/events/edit/${id}`])
+  }
   add() { this.router.navigate(['/events/add'])}
 
   delete(id: String, title: String) {
