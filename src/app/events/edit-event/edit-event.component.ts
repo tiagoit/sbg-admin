@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { HttpEventType } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
-import { Event, Org } from '../../models';
+import { Event, Org, Tag } from '../../models';
 import { OrgService } from '../../orgs/org.service';
 import { UploadService } from '../../services/upload.service';
 import { EventService } from "../event.service";
@@ -22,6 +22,8 @@ export class EditEventComponent implements OnInit {
   orgs: Org[];
   imgPreview: any[] = [];
   files: File[] = [];
+  tags: Tag[];
+  tagsFormArray: FormArray;
 
   constructor(private route: ActivatedRoute, private service: EventService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, private orgService: OrgService, public uploadService: UploadService, public appService: AppService) {
     this.fg = fb.group({
@@ -29,20 +31,34 @@ export class EditEventComponent implements OnInit {
       startTime: [],
       org: ['', Validators.required],
       title: ['', Validators.required],
+      site: [''], 
       description: [''],
+      tags: fb.array([]),
       featured: ['']
     });
+
+    this.tagsFormArray = <FormArray>this.fg.controls.tags;
   }
 
   ngOnInit() {
+    // Get orgs.
     this.appService.startLoad('events-edit-load-orgs');
     this.orgService.get().subscribe((orgs: Org[]) => {
       this.appService.stopLoad('events-edit-load-orgs');
-      this.orgs = orgs;
+      this.orgs = orgs.filter((org) => org.status === true);
     });
+
+    // Get tags
+    this.appService.startLoad('events-add-load-tags');
+    this.appService.getTags().subscribe((tags: Tag[]) => {
+      this.tags = tags;
+      this.appService.stopLoad('events-add-load-tags');
+    });
+    // this.tags = this.service.getTags();
+
+    this.firstInput.nativeElement.focus();
     this.event = this.route.snapshot.data.event;
     this.fillForm(this.event);
-    this.firstInput.nativeElement.focus();
     this.appService.stopLoad('events-edit-load-data');
   }
 
@@ -51,8 +67,12 @@ export class EditEventComponent implements OnInit {
     this.fg.controls.startTime.setValue(new Date(storedEvent.start).getUTCHours());
     this.fg.controls.org.setValue(storedEvent.org);
     this.fg.controls.title.setValue(storedEvent.title);
+    this.fg.controls.site.setValue(storedEvent.site);
     this.fg.controls.description.setValue(storedEvent.description);
     this.fg.controls.featured.setValue(storedEvent.featured);
+    storedEvent.tags.forEach((tagCode: string) => {
+      this.tagsFormArray.push(new FormControl(tagCode));
+    });
   }
 
   update() {
@@ -70,10 +90,12 @@ export class EditEventComponent implements OnInit {
       }
     });
 
-    event._id       = this.event._id;
-    event.title     = this.fg.controls.title.value;
-    event.description     = this.fg.controls.description.value;
+    event._id = this.event._id;
+    event.title = this.fg.controls.title.value;
+    event.site = this.fg.controls.site.value;
+    event.description = this.fg.controls.description.value;
     event.featured  = this.fg.controls.featured.value;
+    event.tags    = this.fg.controls.tags.value;
 
     event.images = this.event.images;
 
@@ -110,10 +132,22 @@ export class EditEventComponent implements OnInit {
     this.uploadService.delete(fileToDeleteUrl);
   }
 
-  cancel() {
+  backToList() {
     this.router.navigate(['/events']);
   }
 
+  tagsOnChange(tagCode:string, isChecked: boolean) { 
+    let index = this.tagsFormArray.controls.findIndex(x => x.value == tagCode)
+    if(isChecked) {
+      if(index === -1) {
+        this.tagsFormArray.push(new FormControl(tagCode));
+      }
+    } else {
+      this.tagsFormArray.removeAt(index);
+    }
+  }
 
-
+  checkTag(tagCode) {
+    return this.tagsFormArray.controls.findIndex(x => x.value === tagCode) !== -1
+  }
 }

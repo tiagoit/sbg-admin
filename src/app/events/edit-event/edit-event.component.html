@@ -7,11 +7,15 @@
   </mat-form-field>
 
   <mat-form-field>
-    <textarea matInput formControlName="description" placeholder="Descrição" required tabindex="2" maxlength="255"></textarea>
+    <input matInput formControlName="site" placeholder="Website" tabindex="2" maxlength="80">
   </mat-form-field>
 
   <mat-form-field>
-    <mat-select required formControlName="org" tabindex="3">
+    <textarea matInput formControlName="description" placeholder="Descrição" tabindex="3" maxlength="255"></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select required formControlName="org" tabindex="4">
       <mat-option *ngFor="let org of orgs" [value]="org.name">{{org.name}}</mat-option>
     </mat-select>
     <mat-label>Organização</mat-label>
@@ -19,12 +23,12 @@
   
   <div class="start">
     <mat-form-field class="date">
-      <input matInput formControlName="start" [matDatepicker]="startPicker" placeholder="Data" (focus)="startPicker.open()" tabindex="4">
+      <input matInput formControlName="start" [matDatepicker]="startPicker" placeholder="Data" (focus)="startPicker.open()" tabindex="5">
       <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
       <mat-datepicker #startPicker touchUi></mat-datepicker>
     </mat-form-field>
     <mat-form-field class="time">
-      <mat-select required formControlName="startTime" tabindex="5">
+      <mat-select required formControlName="startTime" tabindex="6">
         <mat-option *ngFor="let t of timeOptions" [value]="t">{{t}}h</mat-option>
       </mat-select>
       <mat-label>Horário</mat-label>
@@ -37,7 +41,13 @@
     <mat-datepicker #endPicker></mat-datepicker>
   </mat-form-field> -->
   
-  <mat-checkbox formControlName="featured" tabindex="6">Destaque</mat-checkbox>
+  <mat-checkbox formControlName="featured" tabindex="7">Destaque</mat-checkbox>
+
+  <div class="row tags">
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2" *ngFor="let tag of tags">
+      <mat-checkbox value="{{tag.code}}" (change)="tagsOnChange(tag.code, $event.checked)" [checked]="checkTag(tag.code)">{{tag.title}}</mat-checkbox>
+    </div>
+  </div>
 
   <div class="row images">
     <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
@@ -46,7 +56,7 @@
         <img [src]="event?.images[0]" *ngIf="event?.images[0] && !imgPreview[0]">
       </div>
       <input #file0 type="file" accept='image/*' (change)="preview(file0.files, 0)"/>
-      <button mat-raised-button color="primary" (click)="file0.click()" tabindex="7">Imagem 1</button>
+      <button mat-raised-button color="primary" (click)="file0.click()" tabindex="8">Imagem 1</button>
     </div>
 
     <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
@@ -55,7 +65,7 @@
         <img [src]="event?.images[1]" *ngIf="event?.images[1] && !imgPreview[1]">
       </div>
       <input #file1 type="file" accept='image/*' (change)="preview(file1.files, 1)"/>
-      <button mat-raised-button color="primary" (click)="file1.click()" tabindex="8">Imagem 2</button>
+      <button mat-raised-button color="primary" (click)="file1.click()" tabindex="9">Imagem 2</button>
     </div>
 
     <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
@@ -64,7 +74,7 @@
         <img [src]="event?.images[2]" *ngIf="event?.images[2] && !imgPreview[2]">
       </div>
       <input #file2 type="file" accept='image/*' (change)="preview(file2.files, 2)"/>
-      <button mat-raised-button color="primary" (click)="file2.click()" tabindex="9">Imagem 3</button>
+      <button mat-raised-button color="primary" (click)="file2.click()" tabindex="10">Imagem 3</button>
     </div>
   
     <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
@@ -73,12 +83,12 @@
         <img [src]="event?.images[3]" *ngIf="event?.images[3] && !imgPreview[3]">
       </div>
       <input #file3 type="file" accept='image/*' (change)="preview(file3.files, 3)"/>
-      <button mat-raised-button color="primary" (click)="file3.click()" tabindex="10">Imagem 4</button>
+      <button mat-raised-button color="primary" (click)="file3.click()" tabindex="11">Imagem 4</button>
     </div>
   </div>  
 
-  <button mat-raised-button color="accent" [disabled]="!fg.valid || appService.isLoading()" (click)="update()" tabindex="11">Atualizar</button>
-  <button id="cancel" mat-raised-button color="primary" (click)="cancel()" tabindex="12" [disabled]="appService.isLoading()">Cancelar</button>
+  <button mat-raised-button color="accent" [disabled]="!fg.valid || appService.isLoading()" (click)="update()" tabindex="12">Atualizar</button>
+  <button id="cancel" mat-raised-button color="primary" (click)="backToList()" tabindex="13" [disabled]="appService.isLoading()">Cancelar</button>
 
 </form>
   

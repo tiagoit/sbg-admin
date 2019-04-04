@@ -31,6 +31,7 @@ import { LoginComponent } from './auth/login/login.component';
 
 import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth.guard';
+import { UtilsService } from './services/utils.service';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -67,7 +68,8 @@ export function tokenGetter() {
     {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
     UploadService,
     AuthService,
-    AuthGuard
+    AuthGuard,
+    UtilsService
   ],
   bootstrap: [AppComponent],
   entryComponents: [DialogConfirm]

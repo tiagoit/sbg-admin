@@ -4,8 +4,10 @@ export class Event {
     org: String;
     city: String;
     title: String;
+    site: String;
     description: Text;
     images: String[];
+    tags: String[];
     featured: Boolean;
 
     constructor() {
@@ -14,17 +16,21 @@ export class Event {
         this.images[1] = '';
         this.images[2] = '';
         this.images[3] = '';
+
+        this.tags = new Array<string>();
     }
 }
 
 export class City {
     _id: String;
     name: String;
+    status: Boolean;
 }
 
 export class Org {
     _id: String;
     name: String;
+    site: String;
     address: Address;
     contacts: Contact[];
     mobile: String;
@@ -56,4 +62,14 @@ class Contact {
     mobile: String;
     role: String;
     notes: String;
+}
+
+export class Tag {
+    title: String;
+    code: String;
+
+    constructor(title: string, code: string) {
+        this.title = title;
+        this.code = code;
+    }
 }

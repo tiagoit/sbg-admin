@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Event } from 'app/models';
+import { Event, Tag } from 'app/models';
 import { Observable } from 'rxjs';
+import { UtilsService } from 'app/services/utils.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class EventService implements Resolve<Event>{
     return this.getById(route.params.id);
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private utilsService: UtilsService) { }
   
   get() {
     return this.http.get(this.url);

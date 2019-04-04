@@ -18,7 +18,8 @@ export class EditCityComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private service: CityService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, public appService: AppService) {
     this.fg = fb.group({
-      name: ['', Validators.required]
+      name: ['', Validators.required],
+      status: ['']
     });
   }
 
@@ -31,6 +32,7 @@ export class EditCityComponent implements OnInit {
 
   fillForm(city) {
     this.fg.controls.name.setValue(city.name);
+    this.fg.controls.status.setValue(city.status)
   }
 
   update() {
@@ -38,6 +40,7 @@ export class EditCityComponent implements OnInit {
     let data = {};
     data['_id'] = this.city._id;
     data['name'] = this.fg.controls.name.value;
+    data['status'] = this.fg.controls.status.value;
 
     this.service.update(data).subscribe((res) => {
       this.appService.stopLoad('cities-edit');

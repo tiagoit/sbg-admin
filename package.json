@@ -2,13 +2,9 @@
   "name": "admin",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve --prod",
-    "start-local": "ng serve --open",
+    "start": "ng serve --watch --open",
     "build": "ng build --prod",
-    "lint": "ng lint",
-    "deploy-only": "firebase deploy",
-    "deploy": "npm run build && npm run deploy-only"
+    "deploy": "npm run build && firebase deploy"
   },
   "private": true,
   "dependencies": {

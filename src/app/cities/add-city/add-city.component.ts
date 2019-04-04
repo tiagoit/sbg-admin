@@ -16,7 +16,8 @@ export class AddCityComponent implements OnInit {
 
   constructor(fb: FormBuilder, private service: CityService, private router: Router, public snackBar: MatSnackBar, public appService: AppService) {
     this.fg = fb.group({
-      name: ['', Validators.required]
+      name: ['', Validators.required],
+      status: [true]
     });
   }
 
@@ -28,7 +29,8 @@ export class AddCityComponent implements OnInit {
     this.appService.startLoad('cities-add');
     let data = {};
     data['name']  = this.fg.controls.name.value;
-    
+    data['status'] = this.fg.controls.status.value ? true : false;
+
     this.service.add(data).subscribe((res) => {
       this.appService.stopLoad('cities-add');
       this.snackBar.open('Cidade adicionada com sucesso!', null, {duration: 2000});

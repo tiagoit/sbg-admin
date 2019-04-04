@@ -21,6 +21,7 @@ export class EditOrgComponent implements OnInit {
   constructor(private route: ActivatedRoute, private service: OrgService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, private cityService: CityService, public appService: AppService) {
     this.fg = fb.group({
       name: ['', Validators.required],
+      site: [''],
       mobile: [''],
       land: [''],
       email: [''],
@@ -46,7 +47,7 @@ export class EditOrgComponent implements OnInit {
     this.appService.startLoad('orgs-edit-load-cities');
     this.cityService.get().subscribe((cities: City[]) => {
       this.appService.stopLoad('orgs-edit-load-cities');
-      this.cities = cities;
+      this.cities = cities.filter((city) => city.status === true);
     });
     this.org = this.route.snapshot.data.org;
     this.fillForm();
@@ -56,8 +57,7 @@ export class EditOrgComponent implements OnInit {
 
   fillForm() {
     this.fg.controls.name.setValue(this.org.name);
-
-    this.fg.controls.name.setValue(this.org.name)
+    this.fg.controls.site.setValue(this.org.site);
     this.fg.controls.mobile.setValue(this.org.mobile)
     this.fg.controls.land.setValue(this.org.land)
     this.fg.controls.email.setValue(this.org.email)
@@ -83,6 +83,7 @@ export class EditOrgComponent implements OnInit {
     let org: Org = new Org();
     org._id       = this.org._id;
     org.name      = this.fg.controls.name.value;
+    org.site      = this.fg.controls.site.value;
     org.mobile    = this.fg.controls.mobile.value;
     org.land      = this.fg.controls.land.value;
     org.email     = this.fg.controls.email.value;
@@ -110,7 +111,7 @@ export class EditOrgComponent implements OnInit {
     });
   }
 
-  cancel() {
+  backToList() {
     this.router.navigate(['/orgs']);
   }
 

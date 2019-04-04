@@ -3,40 +3,43 @@
   <h2>Cadastrar Organização</h2>
   <!-- NAME -->
   <mat-form-field>
-    <input #firstInput matInput formControlName="name" placeholder="Nome" required>
+    <input #firstInput matInput formControlName="name" placeholder="Nome" required tabindex="1">
+  </mat-form-field>
+
+  <!-- SITE -->
+  <mat-form-field>
+    <input matInput formControlName="site" placeholder="Website" tabindex="2">
   </mat-form-field>
 
   <!-- EMAIL -->
   <mat-form-field>
-    <input matInput formControlName="email" placeholder="Email">
+    <input matInput formControlName="email" placeholder="Email" tabindex="3">
   </mat-form-field>
 
   <!-- MOBILE -->
   <mat-form-field>
-    <input matInput formControlName="mobile" placeholder="Celular">
+    <input matInput formControlName="mobile" placeholder="Celular" tabindex="4">
   </mat-form-field>
 
   <!-- LAND -->
   <mat-form-field>
-    <input matInput formControlName="land" placeholder="Fixo">
+    <input matInput formControlName="land" placeholder="Fixo" tabindex="5">
   </mat-form-field>
 
   <!-- NOTES -->
   <mat-form-field>
-    <input matInput formControlName="notes" placeholder="Notas">
+    <input matInput formControlName="notes" placeholder="Notas" tabindex="6">
   </mat-form-field>
 
   <!-- STATUS -->
-  <mat-checkbox formControlName="status">Ativo</mat-checkbox>
+  <mat-checkbox formControlName="status" tabindex="7">Ativo</mat-checkbox>
 
 
-  <!-- 
-    ###################### ADDRESS ########################
-   -->
+  <!-- ###################### ADDRESS ######################## -->
   <!-- CITY -->
   <h3>Endereço</h3>
   <mat-form-field>
-    <mat-select required formControlName="city">
+    <mat-select required formControlName="city" tabindex="8">
       <mat-option *ngFor="let city of cities" [value]="city.name">{{city.name}}</mat-option>
     </mat-select>
     <mat-label>Cidade</mat-label>
@@ -44,57 +47,57 @@
 
   <!-- NEIGHBORHOOD -->
   <mat-form-field>
-    <input matInput formControlName="neighborhood" placeholder="Bairro">
+    <input matInput formControlName="neighborhood" placeholder="Bairro" tabindex="9">
   </mat-form-field>
 
   <!-- STREET -->
   <mat-form-field>
-    <input matInput formControlName="street" placeholder="Rua">
+    <input matInput formControlName="street" placeholder="Rua" tabindex="10">
   </mat-form-field>
 
   <!-- NUMBER -->
   <mat-form-field>
-    <input matInput formControlName="number" placeholder="Número">
+    <input matInput formControlName="number" placeholder="Número" tabindex="11">
   </mat-form-field>
 
   <!-- COMPLEMENT -->
   <mat-form-field>
-    <input matInput formControlName="complement" placeholder="Complemento">
+    <input matInput formControlName="complement" placeholder="Complemento" tabindex="12">
   </mat-form-field>
 
   <!-- ZIP_CODE -->
   <mat-form-field>
-    <input matInput formControlName="zipCode" placeholder="Código Postal">
+    <input matInput formControlName="zipCode" placeholder="Código Postal" tabindex="13">
   </mat-form-field>
-  
-  <!-- 
-    ###################### CONTACT ########################
-   -->
+
+
+  <!-- ###################### CONTACT ######################## -->
   <h3>Contato</h3>
   <!-- CONTACT_NAME -->
   <mat-form-field>
-    <input matInput formControlName="contact_name" placeholder="Nome">
+    <input matInput formControlName="contact_name" placeholder="Nome" tabindex="14">
   </mat-form-field>
 
   <!-- CONTACT_EMAIL -->
   <mat-form-field>
-    <input matInput formControlName="contact_email" placeholder="Email">
+    <input matInput formControlName="contact_email" placeholder="Email" tabindex="15">
   </mat-form-field>
 
   <!-- CONTACT_MOBILE -->
   <mat-form-field>
-    <input matInput formControlName="contact_mobile" placeholder="Celular">
+    <input matInput formControlName="contact_mobile" placeholder="Celular" tabindex="16">
   </mat-form-field>
 
   <!-- CONTACT_ROLE -->
   <mat-form-field>
-    <input matInput formControlName="contact_role" placeholder="Papel">
+    <input matInput formControlName="contact_role" placeholder="Papel" tabindex="17">
   </mat-form-field>
 
   <!-- CONTACT_NOTES -->
   <mat-form-field>
-    <input matInput formControlName="contact_notes" placeholder="Notas">
+    <input matInput formControlName="contact_notes" placeholder="Notas" tabindex="18">
   </mat-form-field>
 
-  <button mat-raised-button color="accent" [disabled]="!fg.valid" (click)="save()">Salvar</button>
+  <button mat-raised-button color="accent" (click)="save()" [disabled]="!fg.valid || appService.isLoading()" tabindex="19">Salvar</button>
+  <button mat-raised-button class="mb-4" color="primary" (click)="backToList()" [disabled]="appService.isLoading()" tabindex="20">Cancelar</button>
 </form>

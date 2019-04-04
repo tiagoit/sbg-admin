@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar, DateAdapter } from '@angular/material';
 import { Org, City } from "../../models";
 import { CityService } from '../../cities/city.service';
+import { AppService } from 'app/services/app.service';
 
 @Component({
   selector: 'app-add-org',
@@ -16,9 +17,10 @@ export class AddOrgComponent implements OnInit {
   cities: City[];
   @ViewChild("firstInput") firstInput: ElementRef;
 
-  constructor(fb: FormBuilder, private service: OrgService, private router: Router, public snackBar: MatSnackBar, private cityService: CityService) {
+  constructor(fb: FormBuilder, private service: OrgService, private router: Router, public snackBar: MatSnackBar, private cityService: CityService, public appService: AppService) {
     this.fg = fb.group({
       name: ['', Validators.required],
+      site: [''],
       mobile: [''],
       land: [''],
       email: [''],
@@ -41,13 +43,18 @@ export class AddOrgComponent implements OnInit {
   }
 
   ngOnInit() { 
-    this.cityService.get().subscribe((cities: City[]) => this.cities = cities);
+    this.appService.startLoad('orgs-add-load-cities');
+    this.cityService.get().subscribe((cities: City[]) => {
+      this.appService.stopLoad('orgs-add-load-cities');
+      this.cities = cities.filter((city) => city.status === true);
+    });
     this.firstInput.nativeElement.focus();
   }
 
   save() {
     let org: Org = new Org();
     org.name = this.fg.controls.name.value;
+    org.site = this.fg.controls.site.value;
     org.mobile = this.fg.controls.mobile.value;
     org.land = this.fg.controls.land.value;
     org.email = this.fg.controls.email.value;
@@ -72,6 +79,10 @@ export class AddOrgComponent implements OnInit {
       this.snackBar.open('Organização adicionada com sucesso!', null, {duration: 2000});
       this.router.navigate([`/orgs`]);
     })
+  }
+
+  backToList() {
+    this.router.navigate([`/orgs`]);
   }
 }
 

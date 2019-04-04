@@ -47,6 +47,12 @@ button {
     }
 }
 
+div.row.tags {
+    padding: 8px 16px 0;
+    margin: 12px 0px 16px;
+    border: 2px solid #e8eaed;
+}
+
 div.row.images {
     margin-top: 16px;
 
@@ -66,7 +72,8 @@ div.row.images {
         margin-left: auto;
         margin-right: auto;
         text-align: center;
-        outline: 1px solid rgba(0,0,0,0.1);
+        // outline: 1px solid rgba(0,0,0,0.1);
+        border: 2px solid #e8eaed;
         overflow: hidden;
 
         img {

@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { EventService } from '../event.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
@@ -7,7 +7,7 @@ import { HttpClient, HttpEventType, HttpResponse } from '@angular/common/http';
 
 import { UploadService } from '../../services/upload.service';
 import { OrgService } from '../../orgs/org.service';
-import { Org, Event } from '../../models';
+import { Org, Event, Tag } from '../../models';
 import { AppService } from 'app/services/app.service';
 
 @Component({
@@ -22,7 +22,10 @@ export class AddEventComponent implements OnInit {
   imgPreview: any[] = [];
   files: File[] = [];
   orgs: Org[];
+  tags: Tag[];
   newEvent: Event = new Event();
+  tagsFormArray: FormArray;
+
 
   constructor(fb: FormBuilder, private service: EventService, private router: Router, public snackBar: MatSnackBar,
     private orgService: OrgService, private http: HttpClient, private el: ElementRef, public uploadService: UploadService, public appService: AppService) {
@@ -31,17 +34,30 @@ export class AddEventComponent implements OnInit {
       startTime: [],
       org: ['', Validators.required],
       title: ['', Validators.required],
+      site: [''],
       description: [''],
+      tags: fb.array([]),
       featured: ['']
     });
+
+    this.tagsFormArray = <FormArray>this.fg.controls.tags;
   }
 
   ngOnInit() {
+    // Get orgs
     this.appService.startLoad('events-add-load-orgs');
     this.orgService.get().subscribe((orgs: Org[]) => {
       this.appService.stopLoad('events-add-load-orgs');
-      this.orgs = orgs;
+      this.orgs = orgs.filter((org) => org.status === true);
     });
+
+    // Get tags
+    this.appService.startLoad('events-add-load-tags');
+    this.appService.getTags().subscribe((tags: Tag[]) => {
+      this.tags = tags;
+      this.appService.stopLoad('events-add-load-tags');
+    });
+
     this.firstInput.nativeElement.focus();
   }
 
@@ -55,13 +71,14 @@ export class AddEventComponent implements OnInit {
       if(org.name === this.fg.controls.org.value) {
         this.newEvent['org'] = org.name;
         this.newEvent['city'] = org.address.city;
-        this.newEvent['city'] = org.address.city;
       }
     });
 
     this.newEvent.title       = this.fg.controls.title.value;
+    this.newEvent.site       = this.fg.controls.site.value;
     this.newEvent.description = this.fg.controls.description.value;
     this.newEvent.featured    = this.fg.controls.featured.value || false;
+    this.newEvent.tags    = this.fg.controls.tags.value || false;
 
     this.service.add(this.newEvent).subscribe((res) => {
       this.appService.stopLoad('events-add');
@@ -69,7 +86,7 @@ export class AddEventComponent implements OnInit {
       this.router.navigate([`/events`]);
     })
   }
- 
+
   preview(files: File[], idx: number) {
     if (files.length === 0) return;
 
@@ -96,6 +113,17 @@ export class AddEventComponent implements OnInit {
   
   backToList() {
     this.router.navigate([`/events`]);
+  }
+
+  tagsOnChange(tagCode:string, isChecked: boolean) { 
+    let index = this.tagsFormArray.controls.findIndex(x => x.value == tagCode);
+    if(isChecked) {
+      if(index === -1) {
+        this.tagsFormArray.push(new FormControl(tagCode));
+      }
+    } else {
+      this.tagsFormArray.removeAt(index);
+    }
   }
 }
 

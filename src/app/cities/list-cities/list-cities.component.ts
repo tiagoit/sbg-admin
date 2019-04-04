@@ -19,7 +19,7 @@ export class ListCitiesComponent implements OnInit {
   dataSource: ListCitiesDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['name', 'actions'];
+  displayedColumns = ['name', 'status', 'actions'];
 
   constructor(private service: CityService, private router: Router, public dialog: MatDialog, public snackBar: MatSnackBar, public appService: AppService) {}
 
