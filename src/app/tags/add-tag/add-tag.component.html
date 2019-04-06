@@ -1,0 +1,15 @@
+<form class="form-container" [formGroup]="fg">
+
+  <h2>Cadastrar Tag</h2>
+
+  <!-- TITLE -->
+  <mat-form-field>
+    <input #firstInput matInput formControlName="title" placeholder="Tag" required tabindex="1">
+  </mat-form-field>
+
+  <!-- STATUS -->
+  <mat-checkbox formControlName="status" tabindex="2">Ativa</mat-checkbox>
+
+  <button mat-raised-button color="accent" (click)="save()" [disabled]="!fg.valid || appService.isLoading()" tabindex="3">Salvar</button>
+  <button mat-raised-button color="primary" (click)="backToList()" [disabled]="appService.isLoading()" tabindex="4">Cancelar</button>
+</form>

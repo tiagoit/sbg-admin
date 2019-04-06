@@ -26,6 +26,11 @@ import { EditCityComponent } from './cities/edit-city/edit-city.component';
 import { ListOrgsComponent } from './orgs/list-orgs/list-orgs.component';
 import { AddOrgComponent } from './orgs/add-org/add-org.component';
 import { EditOrgComponent } from './orgs/edit-org/edit-org.component';
+
+import { ListTagsComponent } from './tags/list-tags/list-tags.component';
+import { AddTagComponent } from './tags/add-tag/add-tag.component';
+import { EditTagComponent } from './tags/edit-tag/edit-tag.component';
+
 import { UploadService } from './services/upload.service';
 import { LoginComponent } from './auth/login/login.component';
 
@@ -44,6 +49,7 @@ export function tokenGetter() {
     ListEventsComponent, AddEventComponent, EditEventComponent,
     ListCitiesComponent, AddCityComponent, EditCityComponent,
     ListOrgsComponent, AddOrgComponent, EditOrgComponent,
+    ListTagsComponent, AddTagComponent, EditTagComponent,
     DialogConfirm,
     LoginComponent,
   ],

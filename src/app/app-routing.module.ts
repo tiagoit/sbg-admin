@@ -8,18 +8,22 @@ import { AuthGuard } from './auth/auth.guard';
 import { ListEventsComponent } from "./events/list-events/list-events.component";
 import { AddEventComponent } from "./events/add-event/add-event.component";
 import { EditEventComponent } from "./events/edit-event/edit-event.component";
+import { EventService } from "./events/event.service";
 
 import { ListCitiesComponent } from "./cities/list-cities/list-cities.component";
 import { AddCityComponent } from "./cities/add-city/add-city.component";
 import { EditCityComponent } from "./cities/edit-city/edit-city.component";
+import { CityService } from './cities/city.service';
 
 import { ListOrgsComponent } from "./orgs/list-orgs/list-orgs.component";
 import { AddOrgComponent } from "./orgs/add-org/add-org.component";
 import { EditOrgComponent } from "./orgs/edit-org/edit-org.component";
-
-import { CityService } from './cities/city.service';
-import { EventService } from "./events/event.service";
 import { OrgService } from "./orgs/org.service";
+
+import { ListTagsComponent } from "./tags/list-tags/list-tags.component";
+import { AddTagComponent } from "./tags/add-tag/add-tag.component";
+import { EditTagComponent } from "./tags/edit-tag/edit-tag.component";
+import { TagService } from './tags/tag.service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/events', pathMatch: 'full' },
@@ -36,7 +40,11 @@ const routes: Routes = [
 
   { path: 'orgs', component: ListOrgsComponent, canActivate: [AuthGuard] },
   { path: 'orgs/add', component: AddOrgComponent, canActivate: [AuthGuard] },
-  { path: 'orgs/edit/:id', component: EditOrgComponent, canActivate: [AuthGuard], resolve: { org: OrgService }  }
+  { path: 'orgs/edit/:id', component: EditOrgComponent, canActivate: [AuthGuard], resolve: { org: OrgService }  },
+
+  { path: 'tags', component: ListTagsComponent, canActivate: [AuthGuard] },
+  { path: 'tags/add', component: AddTagComponent, canActivate: [AuthGuard] },
+  { path: 'tags/edit/:id', component: EditTagComponent, canActivate: [AuthGuard], resolve: { tag: TagService } },
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);

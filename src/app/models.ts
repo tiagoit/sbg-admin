@@ -1,9 +1,11 @@
 export class Event {
     _id: String;
-    start: Date;
-    org: String;
-    city: String;
+    code: String;
+    orgCode: String;
+    cityCode: String;
     title: String;
+    start: Date;
+    end: Date;
     site: String;
     description: Text;
     images: String[];
@@ -23,12 +25,16 @@ export class Event {
 
 export class City {
     _id: String;
+    code: String;
+    order: String;
     name: String;
     status: Boolean;
 }
 
 export class Org {
     _id: String;
+    code: String;
+    cityCode: String;
     name: String;
     site: String;
     address: Address;
@@ -65,11 +71,13 @@ class Contact {
 }
 
 export class Tag {
-    title: String;
     code: String;
+    title: String;
+    status: Boolean;
 
-    constructor(title: string, code: string) {
+    constructor(title: string, code: string, status?: Boolean) {
         this.title = title;
         this.code = code;
+        this.status = status || true;
     }
 }

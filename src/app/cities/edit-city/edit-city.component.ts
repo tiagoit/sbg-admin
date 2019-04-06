@@ -25,14 +25,14 @@ export class EditCityComponent implements OnInit {
 
   ngOnInit() {
     this.city = this.route.snapshot.data.city;
-    this.fillForm(this.city);
+    this.fillForm();
     this.firstInput.nativeElement.focus();
     this.appService.stopLoad('cities-edit-load-data');
   }
 
-  fillForm(city) {
-    this.fg.controls.name.setValue(city.name);
-    this.fg.controls.status.setValue(city.status)
+  fillForm() {
+    this.fg.controls.name.setValue(this.city.name);
+    this.fg.controls.status.setValue(this.city.status)
   }
 
   update() {

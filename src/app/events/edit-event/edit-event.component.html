@@ -16,7 +16,7 @@
 
   <mat-form-field>
     <mat-select required formControlName="org" tabindex="4">
-      <mat-option *ngFor="let org of orgs" [value]="org.name">{{org.name}}</mat-option>
+      <mat-option *ngFor="let org of orgs" [value]="org.code">{{org.name}}</mat-option>
     </mat-select>
     <mat-label>Organização</mat-label>
   </mat-form-field>

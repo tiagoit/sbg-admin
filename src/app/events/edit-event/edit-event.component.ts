@@ -58,19 +58,19 @@ export class EditEventComponent implements OnInit {
 
     this.firstInput.nativeElement.focus();
     this.event = this.route.snapshot.data.event;
-    this.fillForm(this.event);
+    this.fillForm();
     this.appService.stopLoad('events-edit-load-data');
   }
 
-  fillForm(storedEvent) {
-    this.fg.controls.start.setValue(storedEvent.start);
-    this.fg.controls.startTime.setValue(new Date(storedEvent.start).getUTCHours());
-    this.fg.controls.org.setValue(storedEvent.org);
-    this.fg.controls.title.setValue(storedEvent.title);
-    this.fg.controls.site.setValue(storedEvent.site);
-    this.fg.controls.description.setValue(storedEvent.description);
-    this.fg.controls.featured.setValue(storedEvent.featured);
-    storedEvent.tags.forEach((tagCode: string) => {
+  fillForm() {
+    this.fg.controls.start.setValue(this.event.start);
+    this.fg.controls.startTime.setValue(new Date(this.event.start).getUTCHours());
+    this.fg.controls.org.setValue(this.event.orgCode);
+    this.fg.controls.title.setValue(this.event.title);
+    this.fg.controls.site.setValue(this.event.site);
+    this.fg.controls.description.setValue(this.event.description);
+    this.fg.controls.featured.setValue(this.event.featured);
+    this.event.tags.forEach((tagCode: string) => {
       this.tagsFormArray.push(new FormControl(tagCode));
     });
   }
@@ -85,8 +85,8 @@ export class EditEventComponent implements OnInit {
 
     this.orgs.forEach(org => {
       if(org.name === this.fg.controls.org.value) {
-        event.org = org.name;
-        event.city = org.address.city;
+        event.orgCode = org.code;
+        event.cityCode = this.appService.encodeToUrl(org.address.city);
       }
     });
 
