@@ -66,7 +66,8 @@ export class ListCitiesDataSource extends DataSource<City> {
     return data.sort((a, b) => {
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
-        case 'name': return compare(a.name, b.name, isAsc);
+        case 'name': return compare(a.name.toLowerCase(), b.name.toLowerCase(), isAsc);
+        case 'status': return compare(a.status, b.status, isAsc);
         default: return 0;
       }
     });
@@ -75,5 +76,5 @@ export class ListCitiesDataSource extends DataSource<City> {
 
 /** Simple sort comparator for example ID/Name columns (for client-side sorting). */
 function compare(a, b, isAsc) {
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  return (a < b ? -1 : 1) * (isAsc ? -1 : 1);
 }
