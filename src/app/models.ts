@@ -38,7 +38,6 @@ export class Org {
     code: String;
     name: String;
     cityCode: String;
-    cityName: String;
     site: String;
     address: Address;
     contacts: Contact[];

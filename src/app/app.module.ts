@@ -37,6 +37,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth.guard';
 import { UtilsService } from './services/utils.service';
+import { MigrationsComponent } from './migrations/migrations.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -52,6 +53,7 @@ export function tokenGetter() {
     ListTagsComponent, AddTagComponent, EditTagComponent,
     DialogConfirm,
     LoginComponent,
+    MigrationsComponent,
   ],
   imports: [
     BrowserModule,

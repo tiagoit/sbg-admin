@@ -100,7 +100,7 @@ export class EditEventComponent implements OnInit {
         newEvent.orgCode = org.code;
         newEvent.orgName = org.name;
         newEvent.cityCode = org.cityCode;
-        newEvent.cityName = org.cityName;
+        newEvent.cityName = org.address.city;
       }
     });
     return newEvent;

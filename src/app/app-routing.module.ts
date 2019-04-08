@@ -24,6 +24,7 @@ import { ListTagsComponent } from "./tags/list-tags/list-tags.component";
 import { AddTagComponent } from "./tags/add-tag/add-tag.component";
 import { EditTagComponent } from "./tags/edit-tag/edit-tag.component";
 import { TagService } from './tags/tag.service';
+import { MigrationsComponent } from './migrations/migrations.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/events', pathMatch: 'full' },
@@ -45,6 +46,8 @@ const routes: Routes = [
   { path: 'tags', component: ListTagsComponent, canActivate: [AuthGuard] },
   { path: 'tags/add', component: AddTagComponent, canActivate: [AuthGuard] },
   { path: 'tags/edit/:id', component: EditTagComponent, canActivate: [AuthGuard], resolve: { tag: TagService } },
+
+  { path: 'migrations', component: MigrationsComponent, canActivate: [AuthGuard] },
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);

@@ -26,7 +26,8 @@ export class CityService implements Resolve<City> {
     return this.http.get(`${this.url}/${id}`);
   }
   
-  update(data) {
+  update(data, oldName) {
+    data['oldName'] = oldName;
     return this.http.put(`${this.url}/${data._id}`, data);
   }
   

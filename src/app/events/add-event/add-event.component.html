@@ -17,7 +17,7 @@
   
   <mat-form-field>
     <mat-select required formControlName="org" tabindex="4">
-      <mat-option *ngFor="let org of orgs" [value]="org.cityCode+'|||'+org.code">{{org.name}} - {{org.cityName}}</mat-option>
+      <mat-option *ngFor="let org of orgs" [value]="org.cityCode+'|||'+org.code">{{org.name}} - {{org.address.city}}</mat-option>
     </mat-select>
     <mat-label>Organização</mat-label>
   </mat-form-field>

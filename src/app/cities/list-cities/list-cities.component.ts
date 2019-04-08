@@ -46,10 +46,15 @@ export class ListCitiesComponent implements OnInit {
 
   delete(id: String, title: String) {
     const dialogRef = this.dialog.open(DialogConfirm, {width: '320px', data: {title: title}});
-    dialogRef.afterClosed().subscribe(result => {
-      if(result) {
+    dialogRef.afterClosed().subscribe(res => {
+      if(res) {
         this.appService.startLoad('cities-delete');
-        this.service.delete(id).subscribe(() => this.get(true));
+        this.service.delete(id).subscribe(() => {
+          this.get(true)
+        }, (e) => {
+          this.snackBar.open(e.error.message, null, {duration: 5000});
+          this.appService.stopLoad('cities-delete');
+        });
       }
     });
   }

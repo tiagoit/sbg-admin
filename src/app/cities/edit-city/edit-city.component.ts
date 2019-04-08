@@ -4,6 +4,7 @@ import { CityService } from "../city.service";
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { AppService } from 'app/services/app.service';
+import { City } from 'app/models';
 
 @Component({
   selector: 'app-edit-city',
@@ -54,12 +55,12 @@ export class EditCityComponent implements OnInit {
   }
 
   update() {
-    let data = {};
-    data['_id'] = this.city._id;
-    data['name'] = this.fg.controls.name.value;
-    data['status'] = this.fg.controls.status.value;
+    let newCity: City = new City();
+    newCity._id = this.city._id;
+    newCity.name = this.fg.controls.name.value;
+    newCity.status = this.fg.controls.status.value;
 
-    this.service.update(data).subscribe((res) => {
+    this.service.update(newCity, this.city.name).subscribe((res) => {
       this.appService.stopLoad('cities-edit');
       this.snackBar.open('Cidade atualizada com sucesso!', null, {duration: 2000});
       this.router.navigate([`/cities`]);

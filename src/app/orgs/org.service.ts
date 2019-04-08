@@ -25,7 +25,10 @@ export class OrgService {
     return this.http.get(`${this.url}/${id}`);
   }
   
-  update(data) {
+  update(data, oldName, oldCityName, newCityName) {
+    data['oldName'] = oldName;
+    data['oldCityName'] = oldCityName;
+    data['newCityName'] = newCityName;
     return this.http.put(`${this.url}/${data._id}`, data);
   }
   

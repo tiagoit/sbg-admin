@@ -49,7 +49,12 @@ export class ListOrgsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
         this.appService.startLoad('orgs-delete');
-        this.service.delete(id).subscribe(() => this.get(true));
+        this.service.delete(id).subscribe(() => {
+          this.get(true)
+        }, (e) => {
+          this.snackBar.open(e.error.message, null, {duration: 5000});
+          this.appService.stopLoad('orgs-delete');
+        });
       }
     });
   }

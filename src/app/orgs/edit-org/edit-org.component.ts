@@ -17,8 +17,6 @@ export class EditOrgComponent implements OnInit {
   org: any;
   fg: FormGroup;
   cities: City[];
-  storedName: String;
-  storedCity: String;
 
   constructor(private route: ActivatedRoute, private service: OrgService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, private cityService: CityService, public appService: AppService) {
     this.fg = fb.group({
@@ -52,8 +50,6 @@ export class EditOrgComponent implements OnInit {
       this.cities = cities.filter((city) => city.status === true);
     });
     this.org = this.route.snapshot.data.org;
-    this.storedName = this.org.name;
-    this.storedCity = this.org.address.city;
 
     this.fillForm();
     this.firstInput.nativeElement.focus();
@@ -116,7 +112,7 @@ export class EditOrgComponent implements OnInit {
     let code = this.appService.encodeToUrl(org['name']);
     let cityCode = this.appService.encodeToUrl(org['address']['city']);
 
-    if(this.fg.controls.name.value !== this.storedName || this.fg.controls.city.value !== this.storedCity) {
+    if(this.fg.controls.name.value !== this.org.name || this.fg.controls.city.value !== this.org.address.city) {
       this.service.checkCode(code, cityCode).subscribe((result) => {      
         if(result) {
           this.fg.controls.name.setErrors({});
@@ -131,7 +127,7 @@ export class EditOrgComponent implements OnInit {
   }
 
   update(org) {
-    this.service.update(org).subscribe((res) => {
+    this.service.update(org, this.org.name, this.org.address.city, org.address.city).subscribe((res) => {
       this.appService.stopLoad('orgs-edit')
       this.snackBar.open('Organização atualizada com sucesso!', null, {duration: 2000});
       this.router.navigate([`/orgs`]);
