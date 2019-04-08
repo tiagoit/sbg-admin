@@ -14,7 +14,7 @@ export class EditTagComponent implements OnInit {
   @ViewChild("firstInput") firstInput: ElementRef;
   tag: any;
   fg: FormGroup;
-
+  storedTitle: String;
 
   constructor(private route: ActivatedRoute, private service: TagService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, public appService: AppService) {
     this.fg = fb.group({
@@ -25,6 +25,7 @@ export class EditTagComponent implements OnInit {
 
   ngOnInit() {
     this.tag = this.route.snapshot.data.tag;
+    this.storedTitle = this.tag.title;
     this.fillForm();
     this.firstInput.nativeElement.focus();
     this.appService.stopLoad('tags-edit-load-data');
@@ -35,8 +36,24 @@ export class EditTagComponent implements OnInit {
     this.fg.controls.status.setValue(this.tag.status)
   }
 
-  update() {
+  onSubmit() {
     this.appService.startLoad('tags-edit');
+
+    if(this.fg.controls.title.value !== this.storedTitle) {
+      this.service.checkCode(this.appService.encodeToUrl(this.fg.controls.title.value)).subscribe((result) => {
+        if(result) {
+          this.fg.controls.title.setErrors({});
+          this.appService.stopLoad('tags-edit');
+        } else {
+          this.update();
+        }
+      });
+    } else {
+      this.update();
+    }
+  }
+
+  update() {
     let data = {};
     data['_id'] = this.tag._id;
     data['title'] = this.fg.controls.title.value;

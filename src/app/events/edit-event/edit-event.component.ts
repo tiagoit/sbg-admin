@@ -8,6 +8,7 @@ import { OrgService } from '../../orgs/org.service';
 import { UploadService } from '../../services/upload.service';
 import { EventService } from "../event.service";
 import { AppService } from 'app/services/app.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-edit-event',
@@ -58,6 +59,7 @@ export class EditEventComponent implements OnInit {
 
     this.firstInput.nativeElement.focus();
     this.event = this.route.snapshot.data.event;
+
     this.fillForm();
     this.appService.stopLoad('events-edit-load-data');
   }
@@ -65,7 +67,7 @@ export class EditEventComponent implements OnInit {
   fillForm() {
     this.fg.controls.start.setValue(this.event.start);
     this.fg.controls.startTime.setValue(new Date(this.event.start).getUTCHours());
-    this.fg.controls.org.setValue(this.event.orgCode);
+    this.fg.controls.org.setValue(this.event.cityCode+'|||'+this.event.orgCode);
     this.fg.controls.title.setValue(this.event.title);
     this.fg.controls.site.setValue(this.event.site);
     this.fg.controls.description.setValue(this.event.description);
@@ -75,37 +77,69 @@ export class EditEventComponent implements OnInit {
     });
   }
 
-  update() {
-    this.appService.startLoad('events-edit');
-    let event: Event = new Event();
+  buildEvent(): Event {
+    let newEvent: Event = new Event();
 
     let dateWithTime: Date = new Date(this.fg.controls.start.value);
     dateWithTime.setHours(this.fg.controls.startTime.value);
-    event.start = dateWithTime;
+    newEvent.start = dateWithTime;
+
+    newEvent._id = this.event._id;
+    newEvent.title = this.fg.controls.title.value;
+    newEvent.site = this.fg.controls.site.value;
+    newEvent.description = this.fg.controls.description.value;
+    newEvent.featured  = this.fg.controls.featured.value;
+    newEvent.tags    = this.fg.controls.tags.value;
+    newEvent.images = this.event.images;
+
+    newEvent.code = this.appService.encodeToUrl(newEvent.title).trim() + 
+                    moment(newEvent.start).format('-DD-MM-YYYY');
 
     this.orgs.forEach(org => {
-      if(org.name === this.fg.controls.org.value) {
-        event.orgCode = org.code;
-        event.cityCode = this.appService.encodeToUrl(org.address.city);
+      if((org.cityCode+'|||'+org.code) === this.fg.controls.org.value) {
+        newEvent.orgCode = org.code;
+        newEvent.orgName = org.name;
+        newEvent.cityCode = org.cityCode;
+        newEvent.cityName = org.cityName;
       }
     });
+    return newEvent;
+  }
 
-    event._id = this.event._id;
-    event.title = this.fg.controls.title.value;
-    event.site = this.fg.controls.site.value;
-    event.description = this.fg.controls.description.value;
-    event.featured  = this.fg.controls.featured.value;
-    event.tags    = this.fg.controls.tags.value;
+  changedCode(newEvent: Event) {
+    return newEvent.code !== this.event.code;
+  }
 
-    event.images = this.event.images;
+  changedOrg(newEvent: Event) {
+    return newEvent.cityCode !== this.event.cityCode || newEvent.orgCode !== this.event.orgCode;
+  }
 
-    this.service.update(event).subscribe((res) => {
+  onSubmit() {
+    this.appService.startLoad('events-edit');
+    let newEvent = this.buildEvent();
+
+    if(newEvent.title !== this.event.title || this.changedOrg(newEvent) || this.changedCode(newEvent)) {
+      this.service.checkCode(newEvent.code, newEvent.orgCode, newEvent.cityCode).subscribe((result) => {
+        if(result) {
+          this.fg.controls.title.setErrors({});
+          this.appService.stopLoad('events-edit');
+        } else {
+          this.update(newEvent);
+        }
+      });
+    } else {
+      this.update(newEvent);
+    }
+  }
+
+  update(newEvent: Event) {
+    this.service.update(newEvent).subscribe((res) => {
       this.appService.stopLoad('events-edit');
       this.snackBar.open('Evento atualizado com sucesso!', null, {duration: 2000});
       this.router.navigate([`/events`]);
     });
   }
- 
+
   preview(files: File[], idx: number) {
     if (files.length === 0) return;
 
@@ -147,7 +181,7 @@ export class EditEventComponent implements OnInit {
     }
   }
 
-  checkTag(tagCode) {
+  checkTag(tagCode: String): Boolean {
     return this.tagsFormArray.controls.findIndex(x => x.value === tagCode) !== -1
   }
 }

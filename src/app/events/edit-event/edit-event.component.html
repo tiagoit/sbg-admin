@@ -4,6 +4,7 @@
 
   <mat-form-field>
     <input matInput #firstInput formControlName="title" placeholder="Título" required tabindex="1" maxlength="35">
+    <mat-error>Nome indisponível.</mat-error>
   </mat-form-field>
 
   <mat-form-field>
@@ -16,7 +17,7 @@
 
   <mat-form-field>
     <mat-select required formControlName="org" tabindex="4">
-      <mat-option *ngFor="let org of orgs" [value]="org.code">{{org.name}}</mat-option>
+      <mat-option *ngFor="let org of orgs" [value]="org.cityCode+'|||'+org.code">{{org.name}} - {{org.cityName}}</mat-option>
     </mat-select>
     <mat-label>Organização</mat-label>
   </mat-form-field>
@@ -87,7 +88,7 @@
     </div>
   </div>  
 
-  <button mat-raised-button color="accent" [disabled]="!fg.valid || appService.isLoading()" (click)="update()" tabindex="12">Atualizar</button>
+  <button mat-raised-button color="accent" [disabled]="!fg.valid || appService.isLoading()" (click)="onSubmit()" tabindex="12">Atualizar</button>
   <button id="cancel" mat-raised-button color="primary" (click)="backToList()" tabindex="13" [disabled]="appService.isLoading()">Cancelar</button>
 
 </form>

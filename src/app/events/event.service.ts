@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ModuleWithComponentFactories } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
@@ -37,5 +37,9 @@ export class EventService implements Resolve<Event>{
   
   delete(id: String) {
     return this.http.delete(`${this.url}/${id}`);
+  }
+
+  checkCode(code: String, orgCode: String, cityCode: String) {
+    return this.http.get(`${this.url}/check-code/${code}/${orgCode}/${cityCode}`);
   }
 }

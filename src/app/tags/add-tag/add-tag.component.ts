@@ -31,11 +31,25 @@ export class AddTagComponent implements OnInit {
     data['title']  = this.fg.controls.title.value;
     data['status'] = this.fg.controls.status.value ? true : false;
 
-    this.service.add(data).subscribe((res) => {
-      this.appService.stopLoad('tags-add');
-      this.snackBar.open('Tag adicionada com sucesso!', null, {duration: 2000});
-      this.router.navigate([`/tags`]);
-    })
+    this.service.checkCode(this.appService.encodeToUrl(data['title'])).subscribe((result) => {
+      if(result) {
+        this.fg.controls.title.setErrors({});
+        this.appService.stopLoad('tags-add');
+      } else {
+        this.service.add(data).subscribe((res) => {
+          this.appService.stopLoad('tags-add');
+          this.snackBar.open('Cidade adicionada com sucesso!', null, {duration: 2000});
+          this.router.navigate([`/tags`]);
+        })
+      }
+    });
+
+
+    // this.service.add(data).subscribe((res) => {
+    //   this.appService.stopLoad('tags-add');
+    //   this.snackBar.open('Tag adicionada com sucesso!', null, {duration: 2000});
+    //   this.router.navigate([`/tags`]);
+    // })
   }
 
   backToList() {

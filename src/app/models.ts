@@ -2,7 +2,9 @@ export class Event {
     _id: String;
     code: String;
     orgCode: String;
+    orgName: String;
     cityCode: String;
+    cityName: String;
     title: String;
     start: Date;
     end: Date;
@@ -34,8 +36,9 @@ export class City {
 export class Org {
     _id: String;
     code: String;
-    cityCode: String;
     name: String;
+    cityCode: String;
+    cityName: String;
     site: String;
     address: Address;
     contacts: Contact[];

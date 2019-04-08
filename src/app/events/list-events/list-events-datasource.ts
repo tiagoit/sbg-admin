@@ -67,9 +67,9 @@ export class ListEventsDataSource extends DataSource<Event> {
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
         case 'start': return compare(a.start, b.start, isAsc);
-        case 'org': return compare(a.org.toLowerCase(), b.org.toLowerCase(), isAsc);
-        case 'city': return compare(a.city.toLowerCase(), b.city.toLowerCase(), isAsc);
         case 'title': return compare(a.title.toLowerCase(), b.title.toLowerCase(), isAsc);
+        case 'orgName': return compare(a.orgName.toLowerCase(), b.orgName.toLowerCase(), isAsc);
+        case 'cityName': return compare(a.cityName.toLowerCase(), b.cityName.toLowerCase(), isAsc);
         default: return 0;
       }
     });

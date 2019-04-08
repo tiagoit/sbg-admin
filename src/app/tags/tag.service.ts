@@ -37,4 +37,8 @@ export class TagService implements Resolve<Tag> {
   delete(id: String) {
     return this.http.delete(`${this.url}/${id}`);
   }
+
+  checkCode(code: String) {
+    return this.http.get(`${this.url}/check-code/${code}`);
+  }
 }

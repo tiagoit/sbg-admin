@@ -36,4 +36,8 @@ export class OrgService {
   delete(id: String) {
     return this.http.delete(`${this.url}/${id}`);
   }
+
+  checkCode(code: String, cityCode: String) {
+    return this.http.get(`${this.url}/check-code/${code}/${cityCode}`);
+  }
 }

@@ -6,10 +6,10 @@
     <!-- TODO: add logo here -->
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="/events" routerLinkActive="active" *ngIf="auth.loggedIn">Eventos</a>
+      <a mat-list-item routerLink="/tags" routerLinkActive="active" *ngIf="auth.loggedIn">Tags</a>
       <a mat-list-item routerLink="/cities" routerLinkActive="active" *ngIf="auth.loggedIn">Cidades</a>
       <a mat-list-item routerLink="/orgs" routerLinkActive="active" *ngIf="auth.loggedIn">Organizações</a>
-      <a mat-list-item routerLink="/tags" routerLinkActive="active" *ngIf="auth.loggedIn">Tags</a>
+      <a mat-list-item routerLink="/events" routerLinkActive="active" *ngIf="auth.loggedIn">Eventos</a>
       <a mat-list-item (click)="logout()" href="#" *ngIf="auth.loggedIn">Sair</a>
     </mat-nav-list>
   </mat-sidenav>

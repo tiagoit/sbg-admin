@@ -17,6 +17,8 @@ export class EditOrgComponent implements OnInit {
   org: any;
   fg: FormGroup;
   cities: City[];
+  storedName: String;
+  storedCity: String;
 
   constructor(private route: ActivatedRoute, private service: OrgService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, private cityService: CityService, public appService: AppService) {
     this.fg = fb.group({
@@ -50,6 +52,9 @@ export class EditOrgComponent implements OnInit {
       this.cities = cities.filter((city) => city.status === true);
     });
     this.org = this.route.snapshot.data.org;
+    this.storedName = this.org.name;
+    this.storedCity = this.org.address.city;
+
     this.fillForm();
     this.firstInput.nativeElement.focus();
     this.appService.stopLoad('orgs-edit-load-data');
@@ -58,28 +63,27 @@ export class EditOrgComponent implements OnInit {
   fillForm() {
     this.fg.controls.name.setValue(this.org.name);
     this.fg.controls.site.setValue(this.org.site);
-    this.fg.controls.mobile.setValue(this.org.mobile)
-    this.fg.controls.land.setValue(this.org.land)
-    this.fg.controls.email.setValue(this.org.email)
-    this.fg.controls.notes.setValue(this.org.notes)
-    this.fg.controls.status.setValue(this.org.status)
+    this.fg.controls.mobile.setValue(this.org.mobile);
+    this.fg.controls.land.setValue(this.org.land);
+    this.fg.controls.email.setValue(this.org.email);
+    this.fg.controls.notes.setValue(this.org.notes);
+    this.fg.controls.status.setValue(this.org.status);
 
-    this.fg.controls.city.setValue(this.org.address.city)
-    this.fg.controls.neighborhood.setValue(this.org.address.neighborhood)
-    this.fg.controls.street.setValue(this.org.address.street)
-    this.fg.controls.number.setValue(this.org.address.number)
-    this.fg.controls.complement.setValue(this.org.address.complement)
-    this.fg.controls.zipCode.setValue(this.org.address.zipCode)
+    this.fg.controls.city.setValue(this.org.address.city);
+    this.fg.controls.neighborhood.setValue(this.org.address.neighborhood);
+    this.fg.controls.street.setValue(this.org.address.street);
+    this.fg.controls.number.setValue(this.org.address.number);
+    this.fg.controls.complement.setValue(this.org.address.complement);
+    this.fg.controls.zipCode.setValue(this.org.address.zipCode);
   
-    this.fg.controls.contact_name.setValue(this.org.contacts[0].name)
-    this.fg.controls.contact_email.setValue(this.org.contacts[0].email)
-    this.fg.controls.contact_mobile.setValue(this.org.contacts[0].mobile)
-    this.fg.controls.contact_role.setValue(this.org.contacts[0].role)
-    this.fg.controls.contact_notes.setValue(this.org.contacts[0].notes)
+    this.fg.controls.contact_name.setValue(this.org.contacts[0].name);
+    this.fg.controls.contact_email.setValue(this.org.contacts[0].email);
+    this.fg.controls.contact_mobile.setValue(this.org.contacts[0].mobile);
+    this.fg.controls.contact_role.setValue(this.org.contacts[0].role);
+    this.fg.controls.contact_notes.setValue(this.org.contacts[0].notes);
   }
 
-  update() {
-    this.appService.startLoad('orgs-edit')
+  buildOrg() {
     let org: Org = new Org();
     org._id       = this.org._id;
     org.name      = this.fg.controls.name.value;
@@ -103,7 +107,30 @@ export class EditOrgComponent implements OnInit {
     org.contacts[0].mobile  = this.fg.controls.contact_mobile.value;
     org.contacts[0].role    = this.fg.controls.contact_role.value;
     org.contacts[0].notes   = this.fg.controls.contact_notes.value;
+    return org;
+  }
 
+  onSubmit() {
+    this.appService.startLoad('orgs-edit')
+    let org = this.buildOrg();
+    let code = this.appService.encodeToUrl(org['name']);
+    let cityCode = this.appService.encodeToUrl(org['address']['city']);
+
+    if(this.fg.controls.name.value !== this.storedName || this.fg.controls.city.value !== this.storedCity) {
+      this.service.checkCode(code, cityCode).subscribe((result) => {      
+        if(result) {
+          this.fg.controls.name.setErrors({});
+          this.appService.stopLoad('orgs-edit');
+        } else {
+          this.update(org);
+        }
+      });
+    } else {
+      this.update(org);
+    }
+  }
+
+  update(org) {
     this.service.update(org).subscribe((res) => {
       this.appService.stopLoad('orgs-edit')
       this.snackBar.open('Organização atualizada com sucesso!', null, {duration: 2000});

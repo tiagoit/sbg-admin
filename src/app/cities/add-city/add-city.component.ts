@@ -31,11 +31,18 @@ export class AddCityComponent implements OnInit {
     data['name']  = this.fg.controls.name.value;
     data['status'] = this.fg.controls.status.value ? true : false;
 
-    this.service.add(data).subscribe((res) => {
-      this.appService.stopLoad('cities-add');
-      this.snackBar.open('Cidade adicionada com sucesso!', null, {duration: 2000});
-      this.router.navigate([`/cities`]);
-    })
+    this.service.checkCode(this.appService.encodeToUrl(data['name'])).subscribe((result) => {
+      if(result) {
+        this.fg.controls.name.setErrors({});
+        this.appService.stopLoad('cities-add');
+      } else {
+        this.service.add(data).subscribe((res) => {
+          this.appService.stopLoad('cities-add');
+          this.snackBar.open('Cidade adicionada com sucesso!', null, {duration: 2000});
+          this.router.navigate([`/cities`]);
+        })
+      }
+    });
   }
 
   backToList() {

@@ -51,7 +51,7 @@ export class AddOrgComponent implements OnInit {
     this.firstInput.nativeElement.focus();
   }
 
-  save() {
+  buildOrg() {
     let org: Org = new Org();
     org.name = this.fg.controls.name.value;
     org.site = this.fg.controls.site.value;
@@ -74,11 +74,27 @@ export class AddOrgComponent implements OnInit {
     org.contacts[0].mobile = this.fg.controls.contact_mobile.value;
     org.contacts[0].role = this.fg.controls.contact_role.value;
     org.contacts[0].notes = this.fg.controls.contact_notes.value;
-    
-    this.service.add(org).subscribe((res) => {
-      this.snackBar.open('Organização adicionada com sucesso!', null, {duration: 2000});
-      this.router.navigate([`/orgs`]);
-    })
+
+    return org;
+  }
+
+  save() {
+    this.appService.startLoad('orgs-add');
+    let org = this.buildOrg();
+    let code = this.appService.encodeToUrl(org['name']);
+    let cityCode = this.appService.encodeToUrl(org['address']['city']);
+    this.service.checkCode(code, cityCode).subscribe((result) => {      
+      if(result) {
+        this.fg.controls.name.setErrors({});
+        this.appService.stopLoad('orgs-add');
+      } else {
+        this.service.add(org).subscribe((res) => {
+          this.appService.stopLoad('orgs-add');
+          this.snackBar.open('Organização adicionada com sucesso!', null, {duration: 2000});
+          this.router.navigate([`/orgs`]);
+        })
+      }
+    });
   }
 
   backToList() {

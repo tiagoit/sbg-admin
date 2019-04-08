@@ -9,6 +9,7 @@ import { UploadService } from '../../services/upload.service';
 import { OrgService } from '../../orgs/org.service';
 import { Org, Event, Tag } from '../../models';
 import { AppService } from 'app/services/app.service';
+import * as moment from 'moment';
 
 @Component({
   templateUrl: './add-event.component.html',
@@ -61,30 +62,46 @@ export class AddEventComponent implements OnInit {
     this.firstInput.nativeElement.focus();
   }
 
-  save() {
-    this.appService.startLoad('events-add');
+  buildEvent() {
     let dateWithTime: Date = new Date(this.fg.controls.start.value);
     dateWithTime.setHours(this.fg.controls.startTime.value);
     this.newEvent.start = dateWithTime;
 
-    this.orgs.forEach(org => {
-      if(org.name === this.fg.controls.org.value) {
-        this.newEvent['org'] = org.name;
-        this.newEvent['city'] = org.address.city;
-      }
-    });
-
     this.newEvent.title       = this.fg.controls.title.value;
-    this.newEvent.site       = this.fg.controls.site.value;
+    this.newEvent.site        = this.fg.controls.site.value;
     this.newEvent.description = this.fg.controls.description.value;
     this.newEvent.featured    = this.fg.controls.featured.value || false;
-    this.newEvent.tags    = this.fg.controls.tags.value || false;
+    this.newEvent.tags        = this.fg.controls.tags.value || false;
 
-    this.service.add(this.newEvent).subscribe((res) => {
-      this.appService.stopLoad('events-add');
-      this.snackBar.open('Evento adicionado com sucesso!', null, {duration: 2000});
-      this.router.navigate([`/events`]);
-    })
+    this.newEvent.code = this.appService.encodeToUrl(this.newEvent.title).trim() + 
+                          moment(this.newEvent.start).format('-DD-MM-YYYY');
+
+    this.orgs.forEach(org => {
+      if((org.cityCode+'|||'+org.code) === this.fg.controls.org.value) {
+        this.newEvent.orgCode = org.code;
+        this.newEvent.orgName = org.name;
+        this.newEvent.cityCode = org.cityCode;
+        this.newEvent.cityName = org.cityName;
+      }
+    });
+  }
+
+  save() {
+    this.appService.startLoad('events-add');
+    this.buildEvent();
+
+    this.service.checkCode(this.newEvent.code, this.newEvent.orgCode, this.newEvent.cityCode).subscribe((result) => {
+      if(result) {
+        this.fg.controls.title.setErrors({});
+        this.appService.stopLoad('events-add');
+      } else {
+        this.service.add(this.newEvent).subscribe((res) => {
+          this.appService.stopLoad('events-add');
+          this.snackBar.open('Evento adicionada com sucesso!', null, {duration: 2000});
+          this.router.navigate([`/events`]);
+        })
+      }
+    });
   }
 
   preview(files: File[], idx: number) {

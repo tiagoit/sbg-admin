@@ -37,4 +37,8 @@ export class CityService implements Resolve<City> {
   delete(id: String) {
     return this.http.delete(`${this.url}/${id}`);
   }
+
+  checkCode(code: String) {
+    return this.http.get(`${this.url}/check-code/${code}`);
+  }
 }
