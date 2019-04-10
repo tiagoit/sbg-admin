@@ -14,15 +14,26 @@ import { AppService } from 'app/services/app.service';
 export class NavComponent {
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches)
-    );
+    .pipe(map(result => result.matches));
+
+  moduleTitles = {
+    'login': 'Login',
+    'events': 'Eventos',
+    'cities': 'Cidades',
+    'orgs': 'Organizações',
+    'tags': 'Tags',
+    'migrations': 'Migrações'
+  }
 
   constructor(private router: Router, private breakpointObserver: BreakpointObserver, public auth: AuthService, public appService: AppService) {}
 
   logout() {
     this.auth.logout();
     this.router.navigate(['login']);
+  }
+
+  getModuleTitle() {
+    return this.moduleTitles[this.router.url.split('/')[1]];
   }
 
 }
