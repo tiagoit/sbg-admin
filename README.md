@@ -1,29 +1,24 @@
-## Serve to localhost API
-- 
-- 
-
-
-## Serve to prodution API
-- 
-- 
-
-
-## Deploy to Firebase Hosting (preferred because it's only static content)
+## Install
 - Install firebase-tools `$ npm install -g firebase-tools`
-- Sign in to Google `$ firebase login`
-- Initiate the project `$ firebase init` 
-  - include only Firebase Hosting
-  - create a new project
-  - use **dist** as public directory
-  - rewrite all urls to /index.html
-  - don't override index.html
-- Deploy the website `$ firebase deploy`
-- Check [sulbaguia.firebaseapp.com](https://sulbaguia.firebaseapp.com)
-- **IMPORTANT:** Always use the package.json scripts to serve and deploy.
+- Sign in to Firebase `$ firebase login`- 
+- `$ npm install`
 
 
-## Deploy to App Engine (LEGACY)
-- Install google-cloud-sdk
-- Sign in to Google `$ gcloud auth login`
-- Set project `$ gcloud config set project sulbaguia`
-- Deploy `$ gcloud app deploy`
+## Serve to localhost API
+- `npm start` 
+
+
+## Deploy to Firebase Hosting - STAGING
+- Clear active project `$ firebase use --clear`
+- Select the project to use `$ firebase use sulbaguia-stg`
+- Check the active project_id `$ firebase use`
+- Deploy the webapp `$ npm run deploy-stg`
+- Check sulbaguia-stg.firebaseapp.com
+
+
+## Deploy to Firebase Hosting - PRODUCTION
+- Clear active project `$ firebase use --clear`
+- Select the project to use `$ firebase use sulbaguia`
+- Check the active project_id `$ firebase use`
+- Deploy the webapp `$ npm run deploy-production`
+- Check admin.sulbaguia.com.br
