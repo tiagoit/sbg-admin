@@ -25,7 +25,7 @@ export class EditOrgComponent implements OnInit {
       mobile: [''],
       land: [''],
       email: [''],
-      notes: [''],
+      description: [''],
       status: [''],
 
       city: ['', Validators.required],
@@ -62,7 +62,7 @@ export class EditOrgComponent implements OnInit {
     this.fg.controls.mobile.setValue(this.org.mobile);
     this.fg.controls.land.setValue(this.org.land);
     this.fg.controls.email.setValue(this.org.email);
-    this.fg.controls.notes.setValue(this.org.notes);
+    this.fg.controls.description.setValue(this.org.description);
     this.fg.controls.status.setValue(this.org.status);
 
     this.fg.controls.city.setValue(this.org.address.city);
@@ -87,7 +87,7 @@ export class EditOrgComponent implements OnInit {
     org.mobile    = this.fg.controls.mobile.value;
     org.land      = this.fg.controls.land.value;
     org.email     = this.fg.controls.email.value;
-    org.notes     = this.fg.controls.notes.value;
+    org.description     = this.fg.controls.description.value;
     org.status    = this.fg.controls.status.value;
 
     org.address.state         = 'BA';

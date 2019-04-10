@@ -10,6 +10,10 @@ export class MigrationsService {
 
   constructor(private http: HttpClient) { }
   
+  getCount() {
+    return this.http.get(`${this.url}/mig-count`);
+  }
+
   execute(migCode: String) {
     return this.http.get(`${this.url}/${migCode}`);
   }

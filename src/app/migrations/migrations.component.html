@@ -1,2 +1,3 @@
-<button mat-raised-button color="primary" (click)="execute('mig-001')">Executar Migration 001</button>
-<button mat-raised-button color="primary" (click)="execute('mig-002')">Executar Migration 002</button>
+<div *ngFor="let item of createRange(migCount)">
+  <button mat-raised-button color="primary" (click)="execute('mig-' + item)">Executar Migration {{item}}</button>
+</div>

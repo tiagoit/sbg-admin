@@ -24,7 +24,7 @@ export class AddOrgComponent implements OnInit {
       mobile: [''],
       land: [''],
       email: [''],
-      notes: [''],
+      description: [''],
       status: [true],
 
       city: ['', Validators.required],
@@ -58,7 +58,7 @@ export class AddOrgComponent implements OnInit {
     org.mobile = this.fg.controls.mobile.value;
     org.land = this.fg.controls.land.value;
     org.email = this.fg.controls.email.value;
-    org.notes = this.fg.controls.notes.value;
+    org.description = this.fg.controls.description.value;
     org.status = this.fg.controls.status.value ? true : false;
 
     org.address.state = 'BA';

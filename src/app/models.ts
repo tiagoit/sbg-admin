@@ -44,7 +44,7 @@ export class Org {
     mobile: String;
     land: String;
     email: String;
-    notes: String;
+    description: String;
     status: Boolean;
 
     constructor() {
