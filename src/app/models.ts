@@ -13,6 +13,7 @@ export class Event {
     images: String[];
     tags: String[];
     featured: Boolean;
+    size: Number;
 
     constructor() {
         this.images = new Array<String>();

@@ -27,12 +27,12 @@ export class AddEventComponent implements OnInit {
   newEvent: Event = new Event();
   tagsFormArray: FormArray;
 
-
   constructor(fb: FormBuilder, private service: EventService, private router: Router, public snackBar: MatSnackBar,
     private orgService: OrgService, private http: HttpClient, private el: ElementRef, public uploadService: UploadService, public appService: AppService) {
     this.fg = fb.group({
       start: ['', Validators.required],
-      startTime: [],
+      startTime: ['', Validators.required],
+      size: ['', Validators.required],
       org: ['', Validators.required],
       title: ['', Validators.required],
       site: [''],
@@ -69,6 +69,7 @@ export class AddEventComponent implements OnInit {
 
     this.newEvent.title       = this.fg.controls.title.value;
     this.newEvent.site        = this.fg.controls.site.value;
+    this.newEvent.size        = this.fg.controls.size.value;
     this.newEvent.description = this.fg.controls.description.value;
     this.newEvent.featured    = this.fg.controls.featured.value || false;
     this.newEvent.tags        = this.fg.controls.tags.value || false;
@@ -141,6 +142,10 @@ export class AddEventComponent implements OnInit {
     } else {
       this.tagsFormArray.removeAt(index);
     }
+  }
+
+  toItemIndexes<T>(a: T[]) {
+    return a.map((item, index) => ({ item, index }));
   }
 }
 

@@ -31,15 +31,25 @@ button {
 }
 
 .start {
-    * {
-        width: calc(50% - 8px);
+    mat-form-field {
+        width: calc(33% - 4px);
     }
+    
     .date {
-        padding-right: 4px;
+        margin-right: 4px;
     }
 
     .time {
-        padding-left: 4px;
+        margin-left: 4px;
+        margin-right: 4px;
+        line-height: 18px;
+        mat-select {
+            width: 100%;
+        }
+    }
+
+    .size {
+        margin-left: 4px;
         line-height: 18px;
         mat-select {
             width: 100%; 
@@ -81,8 +91,4 @@ div.row.images {
             max-height: 150%;
         }
     }
-}
-
-#save {
-    margin-bottom: 32px;
 }

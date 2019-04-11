@@ -8,6 +8,14 @@ import { HttpClient } from '@angular/common/http';
 export class AppService {
   url = `${environment.API_URL}/app`;
 
+  eventSizes = [
+    "Até 50 pessoas",
+    "De 50 à 250",
+    "De 250 à mil ",
+    "De 1 à 5 mil",
+    "Mais de 5 mil"
+  ];
+
   constructor(private http: HttpClient) { }
 
   /* LOADING */

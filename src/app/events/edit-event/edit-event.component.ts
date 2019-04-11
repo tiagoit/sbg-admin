@@ -29,7 +29,8 @@ export class EditEventComponent implements OnInit {
   constructor(private route: ActivatedRoute, private service: EventService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, private orgService: OrgService, public uploadService: UploadService, public appService: AppService) {
     this.fg = fb.group({
       start: ['', Validators.required],
-      startTime: [],
+      startTime: ['', Validators.required],
+      size: ['', Validators.required],
       org: ['', Validators.required],
       title: ['', Validators.required],
       site: [''], 
@@ -69,6 +70,7 @@ export class EditEventComponent implements OnInit {
     this.fg.controls.startTime.setValue(new Date(this.event.start).getUTCHours());
     this.fg.controls.org.setValue(this.event.cityCode+'|||'+this.event.orgCode);
     this.fg.controls.title.setValue(this.event.title);
+    this.fg.controls.size.setValue(this.event.size);
     this.fg.controls.site.setValue(this.event.site);
     this.fg.controls.description.setValue(this.event.description);
     this.fg.controls.featured.setValue(this.event.featured);
@@ -86,6 +88,7 @@ export class EditEventComponent implements OnInit {
 
     newEvent._id = this.event._id;
     newEvent.title = this.fg.controls.title.value;
+    newEvent.size = this.fg.controls.size.value;
     newEvent.site = this.fg.controls.site.value;
     newEvent.description = this.fg.controls.description.value;
     newEvent.featured  = this.fg.controls.featured.value;

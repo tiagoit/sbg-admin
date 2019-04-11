@@ -24,7 +24,7 @@
 
   <div class="start">
     <mat-form-field class="date">
-      <input matInput formControlName="start" [matDatepicker]="startPicker" placeholder="Data" (focus)="startPicker.open()" tabindex="5">
+      <input matInput formControlName="start" [matDatepicker]="startPicker" placeholder="Data" (focus)="startPicker.open()" tabindex="5" required>
       <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
       <mat-datepicker #startPicker touchUi></mat-datepicker>
     </mat-form-field>
@@ -34,6 +34,12 @@
       </mat-select>
       <mat-label>Horário</mat-label>
     </mat-form-field>
+    <mat-form-field class="size">
+      <mat-select required formControlName="size" tabindex="7">
+        <mat-option *ngFor="let size of appService.eventSizes; let i = index;" [value]="i">{{size}}</mat-option>
+      </mat-select>
+      <mat-label>Tamanho</mat-label>
+    </mat-form-field>
   </div>
 
   <!-- <mat-form-field>
@@ -42,7 +48,7 @@
     <mat-datepicker #endPicker></mat-datepicker>
   </mat-form-field> -->
 
-  <mat-checkbox formControlName="featured" tabindex="7">Destaque</mat-checkbox>
+  <mat-checkbox formControlName="featured" tabindex="8">Destaque</mat-checkbox>
 
   <div class="row tags">
     <div class="col-6 col-sm-4 col-md-3 col-lg-2" *ngFor="let tag of tags">
@@ -54,29 +60,29 @@
     <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
       <div class="img-wrapper"><img [src]="imgPreview[0]" *ngIf="imgPreview[0]"></div>
       <input #file0 type="file" accept='image/*' (change)="preview(file0.files, 0)"/>
-      <button mat-raised-button color="primary" (click)="file0.click()" tabindex="8">Imagem 1</button>
+      <button mat-raised-button color="primary" (click)="file0.click()">Imagem 1</button>
     </div>
 
     <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
       <div class="img-wrapper"><img [src]="imgPreview[1]" *ngIf="imgPreview[1]"></div>
       <input #file1 type="file" accept='image/*' (change)="preview(file1.files, 1)"/>
-      <button mat-raised-button color="primary" (click)="file1.click()" tabindex="9">Imagem 2</button>
+      <button mat-raised-button color="primary" (click)="file1.click()">Imagem 2</button>
     </div>
 
     <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
       <div class="img-wrapper"><img [src]="imgPreview[2]" *ngIf="imgPreview[2]"></div>
       <input #file2 type="file" accept='image/*' (change)="preview(file2.files, 2)"/>
-      <button mat-raised-button color="primary" (click)="file2.click()" tabindex="10">Imagem 3</button>
+      <button mat-raised-button color="primary" (click)="file2.click()">Imagem 3</button>
     </div>
   
     <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
       <div class="img-wrapper"><img [src]="imgPreview[3]" *ngIf="imgPreview[3]"></div>
       <input #file3 type="file" accept='image/*' (change)="preview(file3.files, 3)"/>
-      <button mat-raised-button color="primary" (click)="file3.click()" tabindex="11">Imagem 4</button>
+      <button mat-raised-button color="primary" (click)="file3.click()">Imagem 4</button>
     </div>
   </div>
 
-  <button id="save" mat-raised-button color="accent" [disabled]="!fg.valid || appService.isLoading()" (click)="save()" tabindex="12">Salvar</button>
-  <button mat-raised-button color="primary" (click)="backToList()" [disabled]="appService.isLoading()" tabindex="13">Cancelar</button>
+  <button mat-raised-button color="accent" [disabled]="!fg.valid || appService.isLoading()" (click)="save()">Salvar</button>
+  <button mat-raised-button color="primary" (click)="backToList()" [disabled]="appService.isLoading()">Cancelar</button>
 
 </form>

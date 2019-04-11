@@ -34,6 +34,12 @@
       </mat-select>
       <mat-label>Horário</mat-label>
     </mat-form-field>
+    <mat-form-field class="size">
+      <mat-select required formControlName="size" tabindex="7">
+        <mat-option *ngFor="let size of appService.eventSizes; let i = index;" [value]="i">{{size}}</mat-option>
+      </mat-select>
+      <mat-label>Tamanho</mat-label>
+    </mat-form-field>
   </div>
 
   <!-- <mat-form-field>
@@ -89,7 +95,7 @@
   </div>  
 
   <button mat-raised-button color="accent" [disabled]="!fg.valid || appService.isLoading()" (click)="onSubmit()" tabindex="12">Atualizar</button>
-  <button id="cancel" mat-raised-button color="primary" (click)="backToList()" tabindex="13" [disabled]="appService.isLoading()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="backToList()" tabindex="13" [disabled]="appService.isLoading()">Cancelar</button>
 
 </form>
   
