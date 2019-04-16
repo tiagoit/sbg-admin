@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "start": "ng serve --watch --open",
-    "deploy-stg": "ng build --configuration=staging && firebase use && firebase deploy",
-    "deploy-production": "ng build --prod && firebase use && firebase deploy"
+    "deploy-stg": "ng build --configuration=staging && firebase use sulbaguia-stg && firebase deploy",
+    "deploy-production": "ng build --prod && firebase use sulbaguia && firebase deploy"
   },
   "private": true,
   "dependencies": {

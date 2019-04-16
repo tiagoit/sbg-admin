@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { AppService } from 'app/services/app.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-nav',
@@ -25,7 +26,7 @@ export class NavComponent {
     'migrations': 'Migrações'
   }
 
-  constructor(private router: Router, private breakpointObserver: BreakpointObserver, public auth: AuthService, public appService: AppService) {}
+  constructor(private router: Router, private breakpointObserver: BreakpointObserver, public auth: AuthService, public appService: AppService, private titleService: Title) {}
 
   logout() {
     this.auth.logout();
@@ -33,7 +34,9 @@ export class NavComponent {
   }
 
   getModuleTitle() {
-    return this.moduleTitles[this.router.url.split('/')[1]];
+    let moduleName = this.moduleTitles[this.router.url.split('/')[1]];
+    this.titleService.setTitle(moduleName + ` | Sul BA Guia`);
+    return moduleName;
   }
 
 }
