@@ -17,7 +17,8 @@ export class AddTagComponent implements OnInit {
   constructor(fb: FormBuilder, private service: TagService, private router: Router, public snackBar: MatSnackBar, public appService: AppService) {
     this.fg = fb.group({
       title: ['', Validators.required],
-      status: [true]
+      status: [true],
+      featured: [false]
     });
   }
 
@@ -30,6 +31,7 @@ export class AddTagComponent implements OnInit {
     let data = {};
     data['title']  = this.fg.controls.title.value;
     data['status'] = this.fg.controls.status.value ? true : false;
+    data['featured'] = this.fg.controls.featured.value ? true : false;
 
     this.service.checkCode(this.appService.encodeToUrl(data['title'])).subscribe((result) => {
       if(result) {
@@ -38,7 +40,7 @@ export class AddTagComponent implements OnInit {
       } else {
         this.service.add(data).subscribe((res) => {
           this.appService.stopLoad('tags-add');
-          this.snackBar.open('Cidade adicionada com sucesso!', null, {duration: 2000});
+          this.snackBar.open('Tag adicionada com sucesso!', null, {duration: 2000});
           this.router.navigate([`/tags`]);
         })
       }

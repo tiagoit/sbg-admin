@@ -77,6 +77,7 @@ export class Tag {
     code: String;
     title: String;
     status: Boolean;
+    featured: Boolean;
 
     constructor(title: string, code: string, status?: Boolean) {
         this.title = title;

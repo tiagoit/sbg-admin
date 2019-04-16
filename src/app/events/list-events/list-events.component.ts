@@ -19,7 +19,7 @@ export class ListEventsComponent implements OnInit {
   dataSource: ListEventsDataSource;
   
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['start', 'org', 'city', 'title', 'actions'];
+  displayedColumns = ['start', 'title', 'org', 'city', 'actions'];
 
   constructor(private service: EventService, private router: Router, public dialog: MatDialog, public snackBar: MatSnackBar, public appService: AppService) {}
 

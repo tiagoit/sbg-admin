@@ -68,6 +68,7 @@ export class ListTagsDataSource extends DataSource<Tag> {
       switch (this.sort.active) {
         case 'title': return compare(a.title.toLowerCase(), b.title.toLowerCase(), isAsc);
         case 'status': return compare(a.status, b.status, isAsc);
+        case 'featured': return compare(a.status, b.status, isAsc);
         default: return 0;
       }
     });

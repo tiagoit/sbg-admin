@@ -10,6 +10,9 @@
   <!-- STATUS -->
   <mat-checkbox class="mt-2" formControlName="status" tabindex="2">Ativo</mat-checkbox>
 
-  <button mat-raised-button color="accent" (click)="onSubmit()" [disabled]="!fg.valid || appService.isLoading()" tabindex="3">Atualizar</button>
-  <button mat-raised-button color="primary" (click)="backToList()" [disabled]="appService.isLoading()" tabindex="4">Cancelar</button>
+  <!-- FEATURED -->
+  <mat-checkbox class="mt-2" formControlName="featured" tabindex="3">Destaque</mat-checkbox>
+
+  <button mat-raised-button color="accent" (click)="onSubmit()" [disabled]="!fg.valid || appService.isLoading()" tabindex="4">Atualizar</button>
+  <button mat-raised-button color="primary" (click)="backToList()" [disabled]="appService.isLoading()" tabindex="5">Cancelar</button>
 </form>

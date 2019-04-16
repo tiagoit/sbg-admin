@@ -14,7 +14,6 @@ export class MigrationsComponent {
 
   execute(migCode: String) {
     this.service.execute(migCode).subscribe((res) => {
-      console.log('res: ', res)
     }) ;
   }
 

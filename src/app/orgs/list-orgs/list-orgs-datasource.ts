@@ -69,6 +69,7 @@ export class ListOrgsDataSource extends DataSource<Org> {
         case 'name': return compare(a.name.toLowerCase(), b.name.toLowerCase(), isAsc);
         case 'city': return compare(a.address.city.toLowerCase(), b.address.city.toLowerCase(), isAsc);
         case 'status': return compare(a.status, b.status, isAsc);
+        case 'custom': return compare(a.name.toLowerCase(), b.name.toLowerCase(), isAsc) && compare(a.address.city.toLowerCase(), b.address.city.toLowerCase(), isAsc);
         default: return 0;
       }
     });

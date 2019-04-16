@@ -19,7 +19,8 @@ export class EditTagComponent implements OnInit {
   constructor(private route: ActivatedRoute, private service: TagService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, public appService: AppService) {
     this.fg = fb.group({
       title: ['', Validators.required],
-      status: ['']
+      status: [''],
+      featured: ['']
     });
   }
 
@@ -34,6 +35,7 @@ export class EditTagComponent implements OnInit {
   fillForm() {
     this.fg.controls.title.setValue(this.tag.title);
     this.fg.controls.status.setValue(this.tag.status)
+    this.fg.controls.featured.setValue(this.tag.featured)
   }
 
   onSubmit() {
@@ -58,6 +60,7 @@ export class EditTagComponent implements OnInit {
     data['_id'] = this.tag._id;
     data['title'] = this.fg.controls.title.value;
     data['status'] = this.fg.controls.status.value;
+    data['featured'] = this.fg.controls.featured.value;
 
     this.service.update(data).subscribe((res) => {
       this.appService.stopLoad('tags-edit');
