@@ -24,6 +24,7 @@ export class EditEventComponent implements OnInit {
   files: File[] = [];
   tags: Tag[];
   tagsFormArray: FormArray;
+  eventOrg: Org;
 
   constructor(private route: ActivatedRoute, private service: EventService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, private orgService: OrgService, public uploadService: UploadService, public appService: AppService) {
     this.fg = fb.group({
@@ -98,6 +99,7 @@ export class EditEventComponent implements OnInit {
 
     this.orgs.forEach(org => {
       if((org.cityCode+'|||'+org.code) === this.fg.controls.org.value) {
+        this.eventOrg = org;
         newEvent.orgCode = org.code;
         newEvent.orgName = org.name;
         newEvent.cityCode = org.cityCode;
@@ -118,6 +120,10 @@ export class EditEventComponent implements OnInit {
   onSubmit() {
     this.appService.startLoad('events-edit');
     let newEvent = this.buildEvent();
+
+    this.eventOrg.images.forEach(image => {
+      if(image) newEvent.images.push(image);
+    });
 
     if(newEvent.title !== this.event.title || this.changedOrg(newEvent) || this.changedCode(newEvent)) {
       this.service.checkCode(newEvent.code, newEvent.orgCode, newEvent.cityCode).subscribe((result) => {

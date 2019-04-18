@@ -25,6 +25,7 @@ export class AddEventComponent implements OnInit {
   orgs: Org[];
   tags: Tag[];
   newEvent: Event = new Event();
+  eventOrg: Org;
   tagsFormArray: FormArray;
 
   constructor(fb: FormBuilder, private service: EventService, private router: Router, public snackBar: MatSnackBar,
@@ -79,6 +80,7 @@ export class AddEventComponent implements OnInit {
 
     this.orgs.forEach(org => {
       if((org.cityCode+'|||'+org.code) === this.fg.controls.org.value) {
+        this.eventOrg = org;
         this.newEvent.orgCode = org.code;
         this.newEvent.orgName = org.name;
         this.newEvent.cityCode = org.cityCode;
@@ -90,6 +92,10 @@ export class AddEventComponent implements OnInit {
   save() {
     this.appService.startLoad('events-add');
     this.buildEvent();
+    
+    this.eventOrg.images.forEach(image => {
+      if(image) this.newEvent.images.push(image);
+    });
 
     this.service.checkCode(this.newEvent.code, this.newEvent.orgCode, this.newEvent.cityCode).subscribe((result) => {
       if(result) {
