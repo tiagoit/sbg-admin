@@ -11,9 +11,11 @@
     <input matInput formControlName="site" placeholder="Website" tabindex="2" maxlength="80">
   </mat-form-field>
 
-  <mat-form-field>
+  <!-- <mat-form-field>
     <textarea matInput formControlName="description" placeholder="Descrição" rows="4" tabindex="3"></textarea>
-  </mat-form-field>
+  </mat-form-field> -->
+
+  <angular-editor formControlName="description" [config]="editorConfig"></angular-editor>
 
   <mat-form-field>
     <mat-select required formControlName="org" tabindex="4">

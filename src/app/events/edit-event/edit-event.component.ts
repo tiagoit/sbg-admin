@@ -9,6 +9,7 @@ import { UploadService } from '../../services/upload.service';
 import { EventService } from "../event.service";
 import { AppService } from 'app/services/app.service';
 import * as moment from 'moment';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   templateUrl: './edit-event.component.html',
@@ -25,7 +26,16 @@ export class EditEventComponent implements OnInit {
   tags: Tag[];
   tagsFormArray: FormArray;
   eventOrg: Org;
-
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: '240px',
+    minHeight: '120px',
+    placeholder: 'Descrição...',
+    translate: 'no',
+    showToolbar: false
+  };
+  
   constructor(private route: ActivatedRoute, private service: EventService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, private orgService: OrgService, public uploadService: UploadService, public appService: AppService) {
     this.fg = fb.group({
       start: ['', Validators.required],

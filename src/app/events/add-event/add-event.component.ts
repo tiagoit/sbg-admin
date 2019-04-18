@@ -4,6 +4,7 @@ import { EventService } from '../event.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { HttpClient, HttpEventType, HttpResponse } from '@angular/common/http';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 import { UploadService } from '../../services/upload.service';
 import { OrgService } from '../../orgs/org.service';
@@ -27,6 +28,16 @@ export class AddEventComponent implements OnInit {
   newEvent: Event = new Event();
   eventOrg: Org;
   tagsFormArray: FormArray;
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: '240px',
+    minHeight: '120px',
+    placeholder: 'Descrição...',
+    translate: 'no',
+    showToolbar: false
+  };
+
 
   constructor(fb: FormBuilder, private service: EventService, private router: Router, public snackBar: MatSnackBar,
     private orgService: OrgService, private http: HttpClient, private el: ElementRef, public uploadService: UploadService, public appService: AppService) {
@@ -44,6 +55,8 @@ export class AddEventComponent implements OnInit {
 
     this.tagsFormArray = <FormArray>this.fg.controls.tags;
   }
+
+
 
   ngOnInit() {
     // Get orgs

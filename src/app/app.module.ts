@@ -9,9 +9,12 @@ import { MAT_DATE_LOCALE } from '@angular/material';
 import { HotkeyModule } from 'angular2-hotkeys';
 import { JwtModule } from '@auth0/angular-jwt';
 
+import { AngularEditorModule } from '@kolkov/angular-editor';
+
 import { NavComponent } from './angular-material-components/nav/nav.component';
 import { AngularMaterialComponentsModule } from './angular-material-components/angular-material-components.module';
 import { AppComponent } from './app.component';
+
 
 import { DialogConfirm } from './angular-material-components/dialog-confirm.component';
 
@@ -79,7 +82,8 @@ export function tokenGetter() {
           'sulbaguia-stg.appspot.com/api/auth'
         ]
       }
-    })
+    }),
+    AngularEditorModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
