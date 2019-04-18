@@ -37,6 +37,51 @@
 
 
   <!-- 
+    ###################### IMAGES ########################
+    -->
+    <h3>Imagens</h3>
+
+  <div class="row images">
+    <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="img-wrapper">
+        <img [src]="imgPreview[0]" *ngIf="imgPreview[0]">
+        <img [src]="org?.images[0]" *ngIf="org?.images[0] && !imgPreview[0]">
+      </div>
+      <input #file0 type="file" accept='image/*' (change)="preview(file0.files, 0)"/>
+      <button mat-raised-button color="primary" (click)="file0.click()" tabindex="8">Imagem 1</button>
+    </div>
+
+    <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="img-wrapper">
+        <img [src]="imgPreview[1]" *ngIf="imgPreview[1]">
+        <img [src]="org?.images[1]" *ngIf="org?.images[1] && !imgPreview[1]">
+      </div>
+      <input #file1 type="file" accept='image/*' (change)="preview(file1.files, 1)"/>
+      <button mat-raised-button color="primary" (click)="file1.click()" tabindex="9">Imagem 2</button>
+    </div>
+
+    <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="img-wrapper">
+        <img [src]="imgPreview[2]" *ngIf="imgPreview[2]">
+        <img [src]="org?.images[2]" *ngIf="org?.images[2] && !imgPreview[2]">
+      </div>
+      <input #file2 type="file" accept='image/*' (change)="preview(file2.files, 2)"/>
+      <button mat-raised-button color="primary" (click)="file2.click()" tabindex="10">Imagem 3</button>
+    </div>
+  
+    <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="img-wrapper">
+        <img [src]="imgPreview[3]" *ngIf="imgPreview[3]">
+        <img [src]="org?.images[3]" *ngIf="org?.images[3] && !imgPreview[3]">
+      </div>
+      <input #file3 type="file" accept='image/*' (change)="preview(file3.files, 3)"/>
+      <button mat-raised-button color="primary" (click)="file3.click()" tabindex="11">Imagem 4</button>
+    </div>
+  </div>  
+
+
+
+  <!-- 
     ###################### ADDRESS ########################
     -->
   <h3>Endereço</h3>

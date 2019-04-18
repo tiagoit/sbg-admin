@@ -12,10 +12,10 @@ export class UploadService {
 
   constructor(private http: HttpClient) {}
 
-  public upload(file: File): Observable<any> {
+  public upload(file: File, folder: string): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('file', file, file.name);
-    const req = new HttpRequest('POST', this.url, formData);
+    const req = new HttpRequest('POST', this.url + '/' + folder, formData);
     return this.http.request(req);
   }
 

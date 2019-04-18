@@ -122,7 +122,7 @@ export class AddEventComponent implements OnInit {
   upload(file: File, idx: number) {
     this.appService.startLoad('events-add-image-'+idx);
 
-    this.uploadService.upload(file).subscribe(event => {
+    this.uploadService.upload(file, 'events').subscribe(event => {
       if(event.type === HttpEventType.Response) {
         this.newEvent.images[idx] = event.body.gcsPublicUrl;
       }

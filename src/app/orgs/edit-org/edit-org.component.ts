@@ -6,9 +6,10 @@ import { MatSnackBar } from '@angular/material';
 import { City, Org } from '../../models';
 import { CityService } from '../../cities/city.service';
 import { AppService } from 'app/services/app.service';
+import { UploadService } from 'app/services/upload.service';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
-  selector: 'app-edit-org',
   templateUrl: './edit-org.component.html',
   styleUrls: ['./edit-org.component.scss']
 })
@@ -17,8 +18,10 @@ export class EditOrgComponent implements OnInit {
   org: any;
   fg: FormGroup;
   cities: City[];
+  imgPreview: any[] = [];
+  files: File[] = [];
 
-  constructor(private route: ActivatedRoute, private service: OrgService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, private cityService: CityService, public appService: AppService) {
+  constructor(private route: ActivatedRoute, private service: OrgService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, private cityService: CityService, public appService: AppService, public uploadService: UploadService) {
     this.fg = fb.group({
       name: ['', Validators.required],
       site: [''],
@@ -103,6 +106,7 @@ export class EditOrgComponent implements OnInit {
     org.contacts[0].mobile  = this.fg.controls.contact_mobile.value;
     org.contacts[0].role    = this.fg.controls.contact_role.value;
     org.contacts[0].notes   = this.fg.controls.contact_notes.value;
+    org.images = this.org.images;
     return org;
   }
 
@@ -132,6 +136,32 @@ export class EditOrgComponent implements OnInit {
       this.snackBar.open('Organização atualizada com sucesso!', null, {duration: 2000});
       this.router.navigate([`/orgs`]);
     });
+  }
+
+  preview(files: File[], idx: number) {
+    if (files.length === 0) return;
+
+    this.files[idx] = files[0];
+
+    let reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = (_event) => {
+      this.imgPreview[idx] = reader.result;
+    }
+
+    this.upload(files[0], idx);
+  }
+
+  upload(file: File, idx: number) {
+    this.appService.startLoad('orgs-edit-image-'+idx);
+
+    let fileToDeleteUrl = this.org.images[idx];
+    this.uploadService.upload(file, 'orgs').subscribe(_event => {
+      if(_event.type === HttpEventType.Response) {
+        this.org.images[idx] = _event.body.gcsPublicUrl;
+      }
+    }).add(() => this.appService.stopLoad('orgs-edit-image-'+idx));
+    this.uploadService.delete(fileToDeleteUrl);
   }
 
   backToList() {

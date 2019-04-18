@@ -6,18 +6,23 @@ import { MatSnackBar, DateAdapter } from '@angular/material';
 import { Org, City } from "../../models";
 import { CityService } from '../../cities/city.service';
 import { AppService } from 'app/services/app.service';
+import { UploadService } from 'app/services/upload.service';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
-  selector: 'app-add-org',
   templateUrl: './add-org.component.html',
   styleUrls: ['./add-org.component.scss']
 })
 export class AddOrgComponent implements OnInit {
-  fg: FormGroup;
-  cities: City[];
   @ViewChild("firstInput") firstInput: ElementRef;
 
-  constructor(fb: FormBuilder, private service: OrgService, private router: Router, public snackBar: MatSnackBar, private cityService: CityService, public appService: AppService) {
+  fg: FormGroup;
+  cities: City[];
+  imgPreview: any[] = [];
+  files: File[] = [];
+  org: Org = new Org();
+
+  constructor(fb: FormBuilder, private service: OrgService, private router: Router, public snackBar: MatSnackBar, private cityService: CityService, public appService: AppService, public uploadService: UploadService) {
     this.fg = fb.group({
       name: ['', Validators.required],
       site: [''],
@@ -52,49 +57,70 @@ export class AddOrgComponent implements OnInit {
   }
 
   buildOrg() {
-    let org: Org = new Org();
-    org.name = this.fg.controls.name.value;
-    org.site = this.fg.controls.site.value;
-    org.mobile = this.fg.controls.mobile.value;
-    org.land = this.fg.controls.land.value;
-    org.email = this.fg.controls.email.value;
-    org.description = this.fg.controls.description.value;
-    org.status = this.fg.controls.status.value ? true : false;
+    this.org.name = this.fg.controls.name.value;
+    this.org.site = this.fg.controls.site.value;
+    this.org.mobile = this.fg.controls.mobile.value;
+    this.org.land = this.fg.controls.land.value;
+    this.org.email = this.fg.controls.email.value;
+    this.org.description = this.fg.controls.description.value;
+    this.org.status = this.fg.controls.status.value ? true : false;
 
-    org.address.state = 'BA';
-    org.address.city = this.fg.controls.city.value;
-    org.address.neighborhood = this.fg.controls.neighborhood.value;
-    org.address.street = this.fg.controls.street.value;
-    org.address.number = this.fg.controls.number.value;
-    org.address.complement = this.fg.controls.complement.value;
-    org.address.zipCode = this.fg.controls.zipCode.value;
+    this.org.address.state = 'BA';
+    this.org.address.city = this.fg.controls.city.value;
+    this.org.address.neighborhood = this.fg.controls.neighborhood.value;
+    this.org.address.street = this.fg.controls.street.value;
+    this.org.address.number = this.fg.controls.number.value;
+    this.org.address.complement = this.fg.controls.complement.value;
+    this.org.address.zipCode = this.fg.controls.zipCode.value;
   
-    org.contacts[0].name = this.fg.controls.contact_name.value;
-    org.contacts[0].email = this.fg.controls.contact_email.value;
-    org.contacts[0].mobile = this.fg.controls.contact_mobile.value;
-    org.contacts[0].role = this.fg.controls.contact_role.value;
-    org.contacts[0].notes = this.fg.controls.contact_notes.value;
-
-    return org;
+    this.org.contacts[0].name = this.fg.controls.contact_name.value;
+    this.org.contacts[0].email = this.fg.controls.contact_email.value;
+    this.org.contacts[0].mobile = this.fg.controls.contact_mobile.value;
+    this.org.contacts[0].role = this.fg.controls.contact_role.value;
+    this.org.contacts[0].notes = this.fg.controls.contact_notes.value;
   }
 
   save() {
     this.appService.startLoad('orgs-add');
-    let org = this.buildOrg();
-    let code = this.appService.encodeToUrl(org['name']);
-    let cityCode = this.appService.encodeToUrl(org['address']['city']);
+    this.buildOrg();
+    let code = this.appService.encodeToUrl(this.org['name']);
+    let cityCode = this.appService.encodeToUrl(this.org['address']['city']);
     this.service.checkCode(code, cityCode).subscribe((result) => {      
       if(result) {
         this.fg.controls.name.setErrors({});
         this.appService.stopLoad('orgs-add');
       } else {
-        this.service.add(org).subscribe((res) => {
+        this.service.add(this.org).subscribe((res) => {
           this.appService.stopLoad('orgs-add');
           this.snackBar.open('Organização adicionada com sucesso!', null, {duration: 2000});
           this.router.navigate([`/orgs`]);
         })
       }
     });
+  }
+
+  preview(files: File[], idx: number) {
+    if (files.length === 0) return;
+
+    this.files[idx] = files[0];
+
+    let reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = (_event) => {
+      this.imgPreview[idx] = reader.result;
+    }
+
+    this.upload(files[0], idx);
+  }
+
+  upload(file: File, idx: number) {
+    this.appService.startLoad('orgs-add-image-'+idx);
+
+    this.uploadService.upload(file, 'orgs').subscribe(event => {
+      if(event.type === HttpEventType.Response) {
+        this.org.images[idx] = event.body.gcsPublicUrl;
+      }
+    }).add(() => this.appService.stopLoad('orgs-add-image-'+idx));
   }
 
   backToList() {

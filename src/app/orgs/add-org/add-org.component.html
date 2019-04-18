@@ -36,6 +36,35 @@
   <mat-checkbox formControlName="status" tabindex="7">Ativo</mat-checkbox>
 
 
+  <!-- ###################### IMAGES ######################## -->
+  <h3>Imagens</h3>
+  <div class="row images">
+    <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="img-wrapper"><img [src]="imgPreview[0]" *ngIf="imgPreview[0]"></div>
+      <input #file0 type="file" accept='image/*' (change)="preview(file0.files, 0)"/>
+      <button mat-raised-button color="primary" (click)="file0.click()">Imagem 1</button>
+    </div>
+
+    <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="img-wrapper"><img [src]="imgPreview[1]" *ngIf="imgPreview[1]"></div>
+      <input #file1 type="file" accept='image/*' (change)="preview(file1.files, 1)"/>
+      <button mat-raised-button color="primary" (click)="file1.click()">Imagem 2</button>
+    </div>
+
+    <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="img-wrapper"><img [src]="imgPreview[2]" *ngIf="imgPreview[2]"></div>
+      <input #file2 type="file" accept='image/*' (change)="preview(file2.files, 2)"/>
+      <button mat-raised-button color="primary" (click)="file2.click()">Imagem 3</button>
+    </div>
+  
+    <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="img-wrapper"><img [src]="imgPreview[3]" *ngIf="imgPreview[3]"></div>
+      <input #file3 type="file" accept='image/*' (change)="preview(file3.files, 3)"/>
+      <button mat-raised-button color="primary" (click)="file3.click()">Imagem 4</button>
+    </div>
+  </div>
+
+
   <!-- ###################### ADDRESS ######################## -->
   <!-- CITY -->
   <h3>Endereço</h3>

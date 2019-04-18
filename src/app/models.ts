@@ -46,12 +46,18 @@ export class Org {
     land: String;
     email: String;
     description: String;
+    images: String[];
     status: Boolean;
 
     constructor() {
         this.address = new Address();
         this.contacts = [];
         this.contacts[0] = new Contact();
+        this.images = new Array<String>();
+        this.images[0] = '';
+        this.images[1] = '';
+        this.images[2] = '';
+        this.images[3] = '';
     }
 }
 

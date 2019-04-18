@@ -11,7 +11,6 @@ import { AppService } from 'app/services/app.service';
 import * as moment from 'moment';
 
 @Component({
-  selector: 'app-edit-event',
   templateUrl: './edit-event.component.html',
   styleUrls: ['./edit-event.component.scss']
 })
@@ -56,7 +55,6 @@ export class EditEventComponent implements OnInit {
       this.tags = tags;
       this.appService.stopLoad('events-add-load-tags');
     });
-    // this.tags = this.service.getTags();
 
     this.firstInput.nativeElement.focus();
     this.event = this.route.snapshot.data.event;
@@ -161,7 +159,7 @@ export class EditEventComponent implements OnInit {
     this.appService.startLoad('events-edit-image-'+idx);
 
     let fileToDeleteUrl = this.event.images[idx];
-    this.uploadService.upload(file).subscribe(event => {
+    this.uploadService.upload(file, 'events').subscribe(event => {
       if(event.type === HttpEventType.Response) {
         this.event.images[idx] = event.body.gcsPublicUrl;
       }
