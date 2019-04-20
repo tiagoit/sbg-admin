@@ -63,7 +63,9 @@ export class EditEventComponent implements OnInit {
     // Get tags
     this.appService.startLoad('events-add-load-tags');
     this.appService.getTags().subscribe((tags: Tag[]) => {
-      this.tags = tags;
+      this.tags = tags.filter(tag => {
+        return tag.childrenTags === undefined || tag.childrenTags.length === 0;
+      });
       this.appService.stopLoad('events-add-load-tags');
     });
 

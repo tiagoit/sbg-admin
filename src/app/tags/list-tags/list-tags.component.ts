@@ -19,7 +19,7 @@ export class ListTagsComponent implements OnInit {
   dataSource: ListTagsDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['title', 'status', 'featured', 'actions'];
+  displayedColumns = ['title', 'childrenTags', 'status', 'featured', 'actions'];
 
   constructor(private service: TagService, private router: Router, public dialog: MatDialog, public snackBar: MatSnackBar, public appService: AppService) {}
 

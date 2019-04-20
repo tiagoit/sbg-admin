@@ -56,8 +56,6 @@ export class AddEventComponent implements OnInit {
     this.tagsFormArray = <FormArray>this.fg.controls.tags;
   }
 
-
-
   ngOnInit() {
     // Get orgs
     this.appService.startLoad('events-add-load-orgs');
@@ -69,7 +67,9 @@ export class AddEventComponent implements OnInit {
     // Get tags
     this.appService.startLoad('events-add-load-tags');
     this.appService.getTags().subscribe((tags: Tag[]) => {
-      this.tags = tags;
+      this.tags = tags.filter(tag => {
+        return tag.childrenTags === undefined || tag.childrenTags.length === 0;
+      });
       this.appService.stopLoad('events-add-load-tags');
     });
 
@@ -161,10 +161,6 @@ export class AddEventComponent implements OnInit {
     } else {
       this.tagsFormArray.removeAt(index);
     }
-  }
-
-  toItemIndexes<T>(a: T[]) {
-    return a.map((item, index) => ({ item, index }));
   }
 }
 
