@@ -31,6 +31,7 @@ export class City {
     code: String;
     order: String;
     name: String;
+    regionID: String;
     status: Boolean;
 }
 

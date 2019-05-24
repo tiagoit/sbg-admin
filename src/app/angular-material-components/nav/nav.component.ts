@@ -20,7 +20,9 @@ export class NavComponent {
   moduleTitles = {
     'login': 'Login',
     'events': 'Eventos',
+    'regions': 'Regiões',
     'cities': 'Cidades',
+    'partners': 'Parceiros',
     'orgs': 'Organizações',
     'tags': 'Tags',
     'migrations': 'Migrações'
@@ -35,8 +37,13 @@ export class NavComponent {
 
   getModuleTitle() {
     let moduleName = this.moduleTitles[this.router.url.split('/')[1]];
-    this.titleService.setTitle(moduleName + ` | Sul BA Guia`);
+    this.titleService.setTitle(`Sul BA Guia | ` + moduleName);
     return moduleName;
   }
 
+  navClick(drawer, isHandset) {
+    isHandset.subscribe(isHandset => {
+      if(isHandset) drawer.toggle()
+    });
+  }
 }

@@ -21,7 +21,7 @@ export class LoginComponent {
       .pipe(first())
       .subscribe(
         result => this.router.navigate(['events']),
-        err => this.error = 'Could not authenticate'
+        err => this.error = 'Usuário ou senha inválidos.'
       )
       .add(async () => {
         this.appService.stopLoad('login');

@@ -1,0 +1,14 @@
+<form class="form-container" [formGroup]="fg">
+
+  <h2>Cadastrar Região</h2>
+
+  <mat-form-field>
+    <input #firstInput matInput formControlName="name" placeholder="Nome" required>
+    <mat-error>Nome indisponível.</mat-error>
+  </mat-form-field>
+
+  <mat-checkbox class="mt-2" formControlName="status">Ativo</mat-checkbox>
+
+  <button mat-raised-button color="accent" (click)="save()" [disabled]="!fg.valid || appService.isLoading()" tabindex="3">Salvar</button>
+  <button mat-raised-button color="primary" (click)="backToList()" [disabled]="appService.isLoading()" tabindex="4">Cancelar</button>
+</form>

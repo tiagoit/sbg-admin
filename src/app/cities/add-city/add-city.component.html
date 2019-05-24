@@ -2,15 +2,20 @@
 
   <h2>Cadastrar Cidade</h2>
 
-  <!-- NAME -->
   <mat-form-field>
-    <input #firstInput matInput formControlName="name" placeholder="Nome" required tabindex="1">
+    <input #firstInput matInput formControlName="name" placeholder="Nome" required>
     <mat-error>Nome indisponível.</mat-error>
   </mat-form-field>
 
-  <!-- STATUS -->
-  <mat-checkbox class="mt-2" formControlName="status" tabindex="2">Ativo</mat-checkbox>
+  <mat-form-field>
+    <mat-select required formControlName="regionID">
+      <mat-option *ngFor="let region of regions" [value]="region._id">{{region.name}}</mat-option>
+    </mat-select>
+    <mat-label>Região</mat-label>
+  </mat-form-field>
 
-  <button mat-raised-button color="accent" (click)="save()" [disabled]="!fg.valid || appService.isLoading()" tabindex="3">Salvar</button>
-  <button mat-raised-button color="primary" (click)="backToList()" [disabled]="appService.isLoading()" tabindex="4">Cancelar</button>
+  <mat-checkbox class="mt-2" formControlName="status">Ativo</mat-checkbox>
+
+  <button mat-raised-button color="accent" (click)="save()" [disabled]="!fg.valid || appService.isLoading()" >Salvar</button>
+  <button mat-raised-button color="primary" (click)="backToList()" [disabled]="appService.isLoading()" >Cancelar</button>
 </form>

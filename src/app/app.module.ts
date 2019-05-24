@@ -34,6 +34,14 @@ import { ListTagsComponent } from './tags/list-tags/list-tags.component';
 import { AddTagComponent } from './tags/add-tag/add-tag.component';
 import { EditTagComponent } from './tags/edit-tag/edit-tag.component';
 
+import { ListRegionsComponent } from './regions/list-regions/list-regions.component';
+import { AddRegionComponent } from './regions/add-region/add-region.component';
+import { EditRegionComponent } from './regions/edit-region/edit-region.component';
+
+import { ListPartnersComponent } from './partners/list-partners/list-partners.component';
+import { AddPartnerComponent } from './partners/add-partner/add-partner.component';
+import { EditPartnerComponent } from './partners/edit-partner/edit-partner.component';
+
 import { UploadService } from './services/upload.service';
 import { LoginComponent } from './auth/login/login.component';
 
@@ -41,6 +49,7 @@ import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth.guard';
 import { UtilsService } from './services/utils.service';
 import { MigrationsComponent } from './migrations/migrations.component';
+
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -54,9 +63,11 @@ export function tokenGetter() {
     ListCitiesComponent, AddCityComponent, EditCityComponent,
     ListOrgsComponent, AddOrgComponent, EditOrgComponent,
     ListTagsComponent, AddTagComponent, EditTagComponent,
+    ListRegionsComponent, AddRegionComponent, EditRegionComponent,
+    ListPartnersComponent, AddPartnerComponent, EditPartnerComponent,
     DialogConfirm,
     LoginComponent,
-    MigrationsComponent,
+    MigrationsComponent
   ],
   imports: [
     BrowserModule,

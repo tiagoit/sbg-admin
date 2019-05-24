@@ -7,14 +7,18 @@ import * as jwt_decode from 'jwt-decode';
 
 @Injectable()
 export class AuthService {
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient) {}
 
   login(username: string, password: string): Observable<boolean> {
     // TODO: env variable
-    return this.http.post<{token: string}>(`${environment.API_URL}/auth`, {username: username, password: password})
+    let url = `${environment.API_URL}/auth`;
+    let data = {username: username, password: password};
+    return this.http.post<{token: string, partner: any}>(url, data)
       .pipe(
         map(result => {
           localStorage.setItem('access_token', result.token);
+          localStorage.setItem('partner_role', result.partner.role);
           return true;
         })
       );
@@ -22,10 +26,15 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('access_token');
+    localStorage.removeItem('partner_role');
   }
 
   public get loggedIn(): boolean {
     return (localStorage.getItem('access_token') !== null);
+  }
+ 
+  public get role(): String {
+    return localStorage.getItem('partner_role');
   }
 
   getTokenExpirationDate(token: string): Date {

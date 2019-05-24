@@ -1,12 +1,16 @@
 <div class="mat-elevation-z8">
   <table mat-table class="full-width-table" [dataSource]="dataSource" matSort matSortActive="name" matSortDirection="desc" aria-label="Elements">
-    <!-- name Column -->
+
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
       <td mat-cell *matCellDef="let row">{{row.name}}</td>
     </ng-container>
 
-    <!-- status Column -->
+    <ng-container matColumnDef="region">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Região</th>
+      <td mat-cell *matCellDef="let row">{{getRegionNameByID(row.regionID)}}</td> 
+    </ng-container>
+
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
       <td mat-cell *matCellDef="let row">{{row.status ? 'Ativo' : 'Inativo'}}</td>

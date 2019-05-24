@@ -1,14 +1,14 @@
-<h4 *ngIf="error">{{error}}</h4>
-<form (ngSubmit)="submit()">
-  <div class="form-group col-3">
-    <label for="username">Username</label>
-    <input type="text" name="username" class="form-control" [(ngModel)]="username" />
-  </div>
-  <div class="form-group col-3">
-    <label for="password">Password</label>
-    <input type="password" name="password" class="form-control" [(ngModel)]="password" />
-  </div>
-  <div class="form-group col-3">
-    <button class="btn btn-primary" type="submit" [disabled]="appService.isLoading()">Login</button>
-  </div>
-</form>
+<div class="mx-3 mt-3">
+  <form (ngSubmit)="submit()">
+    <div class="form-group">
+      <label for="username">Email</label>
+      <input type="text" name="username" class="form-control" [(ngModel)]="username" />
+    </div>
+    <div class="form-group">
+      <label for="password">Senha</label>
+      <input type="password" name="password" class="form-control" [(ngModel)]="password" />
+    </div>
+    <button mat-button mat-raised-button color="primary" type="submit" [disabled]="appService.isLoading()">Entrar</button>
+    <div *ngIf="error" class="mt-2 alert alert-danger">{{error}}</div>
+  </form>
+</div>

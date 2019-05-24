@@ -4,17 +4,28 @@
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="!(isHandset$ | async)">
     <!-- TODO: add logo here -->
-    <mat-toolbar>Menu</mat-toolbar>
-    <mat-nav-list>
-      <a mat-list-item routerLink="/tags" routerLinkActive="active" *ngIf="auth.loggedIn">Tags</a>
-      <a mat-list-item routerLink="/cities" routerLinkActive="active" *ngIf="auth.loggedIn">Cidades</a>
-      <a mat-list-item routerLink="/orgs" routerLinkActive="active" *ngIf="auth.loggedIn">Organizações</a>
-      <a mat-list-item routerLink="/events" routerLinkActive="active" *ngIf="auth.loggedIn">Eventos</a>
+    <mat-toolbar color="primary">Sul BA Guia</mat-toolbar>
 
-      <!-- TODO: Only admin --><a mat-list-item routerLink="/migrations" routerLinkActive="active" *ngIf="auth.loggedIn">Migrations</a>
+    <mat-nav-list *ngIf="auth.loggedIn">
+      <a mat-list-item (click)="navClick(drawer, isHandset$)" routerLink="/orgs" routerLinkActive="active">Organizações</a>
+      <a mat-list-item (click)="navClick(drawer, isHandset$)" routerLink="/events" routerLinkActive="active">Eventos</a>
 
-      <a mat-list-item (click)="logout()" href="#" *ngIf="auth.loggedIn">Sair</a>
+      <div *ngIf="auth.role == 'admin' || auth.role == 'superadmin'">
+        <div class="menu-subtitle">Admin</div>
+        <a mat-list-item (click)="navClick(drawer, isHandset$)" routerLink="/regions" routerLinkActive="active">Regiões</a>
+        <a mat-list-item (click)="navClick(drawer, isHandset$)" routerLink="/cities" routerLinkActive="active">Cidades</a>
+        <a mat-list-item (click)="navClick(drawer, isHandset$)" routerLink="/tags" routerLinkActive="active">Tags</a>
+      </div>
+
+      <div *ngIf="auth.role == 'superadmin'">
+        <div class="menu-subtitle">Super admin</div>
+        <a mat-list-item (click)="navClick(drawer, isHandset$)" routerLink="/partners" routerLinkActive="active">Parceiros</a>
+        <a mat-list-item (click)="navClick(drawer, isHandset$)" routerLink="/migrations" routerLinkActive="active">Migrations</a>
+      </div>
+      <hr>
+      <a mat-list-item (click)="logout()" href="#">Sair</a>
     </mat-nav-list>
+
   </mat-sidenav>
   <mat-sidenav-content>    
     <mat-toolbar color="primary">
@@ -23,7 +34,7 @@
       </button>
       <!-- TODO: Add logo -->
       <!-- TODO: Add active component name -->
-      <span>{{getModuleTitle()}} | Sul BA Guia</span>
+      <span class="ml-2">Sul BA Guia &nbsp; | &nbsp; {{getModuleTitle()}}</span>
     </mat-toolbar>
     
     <mat-progress-bar mode="indeterminate" [class.active]="appService.isLoading()"></mat-progress-bar>

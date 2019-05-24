@@ -24,6 +24,18 @@ import { ListTagsComponent } from "./tags/list-tags/list-tags.component";
 import { AddTagComponent } from "./tags/add-tag/add-tag.component";
 import { EditTagComponent } from "./tags/edit-tag/edit-tag.component";
 import { TagService } from './tags/tag.service';
+
+import { ListRegionsComponent } from "./regions/list-regions/list-regions.component";
+import { AddRegionComponent } from "./regions/add-region/add-region.component";
+import { EditRegionComponent } from "./regions/edit-region/edit-region.component";
+import { RegionService } from './regions/region.service';
+
+import { ListPartnersComponent } from "./partners/list-partners/list-partners.component";
+import { AddPartnerComponent } from "./partners/add-partner/add-partner.component";
+import { EditPartnerComponent } from "./partners/edit-partner/edit-partner.component";
+import { PartnerService } from './partners/partner.service';
+
+
 import { MigrationsComponent } from './migrations/migrations.component';
 
 const routes: Routes = [
@@ -46,6 +58,14 @@ const routes: Routes = [
   { path: 'tags', component: ListTagsComponent, canActivate: [AuthGuard] },
   { path: 'tags/add', component: AddTagComponent, canActivate: [AuthGuard] },
   { path: 'tags/edit/:id', component: EditTagComponent, canActivate: [AuthGuard], resolve: { tag: TagService } },
+
+  { path: 'regions', component: ListRegionsComponent, canActivate: [AuthGuard] },
+  { path: 'regions/add', component: AddRegionComponent, canActivate: [AuthGuard] },
+  { path: 'regions/edit/:id', component: EditRegionComponent, canActivate: [AuthGuard], resolve: { region: RegionService } },
+
+  { path: 'partners', component: ListPartnersComponent, canActivate: [AuthGuard] },
+  { path: 'partners/add', component: AddPartnerComponent, canActivate: [AuthGuard] },
+  { path: 'partners/edit/:id', component: EditPartnerComponent, canActivate: [AuthGuard], resolve: { partner: PartnerService } },
 
   { path: 'migrations', component: MigrationsComponent, canActivate: [AuthGuard] },
 ];

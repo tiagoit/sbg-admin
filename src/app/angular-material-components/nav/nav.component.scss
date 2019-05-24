@@ -6,10 +6,6 @@
   width: 200px;
 }
 
-.sidenav .mat-toolbar {
-  background: inherit;
-}
-
 .mat-toolbar.mat-primary {
   position: sticky;
   top: 0;
@@ -29,4 +25,14 @@ mat-progress-bar.active {
 
 mat-sidenav-content {
   padding-bottom: 32px;
+}
+
+mat-nav-list div.menu-subtitle {
+  height: 36px;
+  font-size: 18px;
+  line-height: 36px;
+  padding-left: 12px;
+  background-color: #3f51b5;
+  font-weight: bold;
+  color: #fff;
 }

@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { AppService } from 'app/services/app.service';
 import { City } from 'app/models';
+import { Region } from 'app/regions/region.model';
+import { RegionService } from 'app/regions/region.service';
 
 @Component({
   selector: 'app-edit-city',
@@ -16,24 +18,37 @@ export class EditCityComponent implements OnInit {
   city: any;
   fg: FormGroup;
   storedName: String;
+  regions: Region[];
 
-  constructor(private route: ActivatedRoute, private service: CityService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, public appService: AppService) {
+  constructor(
+    private route: ActivatedRoute,
+    private service: CityService,
+    private fb: FormBuilder,
+    private router: Router,
+    public snackBar: MatSnackBar,
+    public appService: AppService,
+    public regionService: RegionService) {
     this.fg = fb.group({
       name: ['', Validators.required],
+      regionID: ['', Validators.required],
       status: ['']
     });
   }
 
   ngOnInit() {
+    this.firstInput.nativeElement.focus();
     this.city = this.route.snapshot.data.city;
     this.storedName = this.city.name;
-    this.fillForm();
-    this.firstInput.nativeElement.focus();
+    this.regionService.get().subscribe((regions: Region[]) => {
+      this.regions = regions
+      this.fillForm();
+    });
     this.appService.stopLoad('cities-edit-load-data');
   }
 
   fillForm() {
     this.fg.controls.name.setValue(this.city.name);
+    this.fg.controls.regionID.setValue(this.city.regionID);
     this.fg.controls.status.setValue(this.city.status)
   }
 
@@ -58,6 +73,7 @@ export class EditCityComponent implements OnInit {
     let newCity: City = new City();
     newCity._id = this.city._id;
     newCity.name = this.fg.controls.name.value;
+    newCity.regionID = this.fg.controls.regionID.value;
     newCity.status = this.fg.controls.status.value;
 
     this.service.update(newCity, this.city.name).subscribe((res) => {

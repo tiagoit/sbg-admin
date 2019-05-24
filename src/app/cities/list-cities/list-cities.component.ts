@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { City } from "../../models";
 import { DialogConfirm } from '../../angular-material-components/dialog-confirm.component';
 import { AppService } from 'app/services/app.service';
+import { Region } from 'app/regions/region.model';
+import { RegionService } from 'app/regions/region.service';
 
 @Component({
   selector: 'app-list-cities',
@@ -17,15 +19,23 @@ export class ListCitiesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable) table: MatTable<any>;
   dataSource: ListCitiesDataSource;
+  regions: Region[];
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['name', 'status', 'actions'];
+  displayedColumns = ['name', 'region','status', 'actions'];
 
-  constructor(private service: CityService, private router: Router, public dialog: MatDialog, public snackBar: MatSnackBar, public appService: AppService) {}
+  constructor(
+    private router: Router,
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar,
+    public appService: AppService,
+    private service: CityService,
+    private regionService: RegionService) {}
 
   ngOnInit() { this.get() }
 
   get(afterDelete?: Boolean) {
+    this.regionService.get().subscribe((regions: Region[]) => this.regions = regions);
     if(!afterDelete) this.appService.startLoad('cities-get');
     this.service.get().subscribe((data: City[]) => {
       this.dataSource = new ListCitiesDataSource(this.paginator, this.sort, data);
@@ -36,6 +46,11 @@ export class ListCitiesComponent implements OnInit {
         this.appService.stopLoad('cities-get');
       }
     });
+  }
+
+  getRegionNameByID(regionID) {
+    if(!this.regions || !regionID) return null;
+    return this.regions.find(r => r._id === regionID).name;
   }
 
   edit(id: String) { 
