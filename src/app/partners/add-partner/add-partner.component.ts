@@ -18,7 +18,7 @@ export class AddPartnerComponent implements OnInit {
   regions: Region[];
 
   constructor(fb: FormBuilder,
-    private service: PartnerService,
+    public service: PartnerService,
     private router: Router,
     public snackBar: MatSnackBar,
     public appService: AppService,

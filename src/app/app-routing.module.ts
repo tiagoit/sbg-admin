@@ -35,6 +35,10 @@ import { AddPartnerComponent } from "./partners/add-partner/add-partner.componen
 import { EditPartnerComponent } from "./partners/edit-partner/edit-partner.component";
 import { PartnerService } from './partners/partner.service';
 
+import { ListAdsComponent } from "./ads/list-ads/list-ads.component";
+import { AddAdComponent } from "./ads/add-ad/add-ad.component";
+import { EditAdComponent } from "./ads/edit-ad/edit-ad.component";
+import { AdService } from './ads/ad.service';
 
 import { MigrationsComponent } from './migrations/migrations.component';
 
@@ -66,6 +70,10 @@ const routes: Routes = [
   { path: 'partners', component: ListPartnersComponent, canActivate: [AuthGuard] },
   { path: 'partners/add', component: AddPartnerComponent, canActivate: [AuthGuard] },
   { path: 'partners/edit/:id', component: EditPartnerComponent, canActivate: [AuthGuard], resolve: { partner: PartnerService } },
+
+  { path: 'anuncios', component: ListAdsComponent, canActivate: [AuthGuard] },
+  { path: 'anuncios/add', component: AddAdComponent, canActivate: [AuthGuard] },
+  { path: 'anuncios/edit/:id', component: EditAdComponent, canActivate: [AuthGuard], resolve: { ad: AdService } },
 
   { path: 'migrations', component: MigrationsComponent, canActivate: [AuthGuard] },
 ];

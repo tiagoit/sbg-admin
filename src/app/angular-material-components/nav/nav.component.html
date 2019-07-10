@@ -3,7 +3,7 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="!(isHandset$ | async)">
-    <!-- TODO: add logo here -->
+    <!-- TODO: add logo here --> 
     <mat-toolbar color="primary">Sul BA Guia</mat-toolbar>
 
     <mat-nav-list *ngIf="auth.loggedIn">
@@ -15,6 +15,7 @@
         <a mat-list-item (click)="navClick(drawer, isHandset$)" routerLink="/regions" routerLinkActive="active">Regiões</a>
         <a mat-list-item (click)="navClick(drawer, isHandset$)" routerLink="/cities" routerLinkActive="active">Cidades</a>
         <a mat-list-item (click)="navClick(drawer, isHandset$)" routerLink="/tags" routerLinkActive="active">Tags</a>
+        <a mat-list-item (click)="navClick(drawer, isHandset$)" routerLink="/anuncios" routerLinkActive="active">Anúncios</a>
       </div>
 
       <div *ngIf="auth.role == 'superadmin'">

@@ -3,6 +3,7 @@ export class Event {
     code: String;
     orgCode: String;
     orgName: String;
+    orgImage: String;
     cityCode: String;
     cityName: String;
     title: String;

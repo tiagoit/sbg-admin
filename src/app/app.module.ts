@@ -42,6 +42,12 @@ import { ListPartnersComponent } from './partners/list-partners/list-partners.co
 import { AddPartnerComponent } from './partners/add-partner/add-partner.component';
 import { EditPartnerComponent } from './partners/edit-partner/edit-partner.component';
 
+import { ListAdsComponent } from "./ads/list-ads/list-ads.component";
+import { AddAdComponent } from "./ads/add-ad/add-ad.component";
+import { EditAdComponent } from "./ads/edit-ad/edit-ad.component";
+import { AdService } from './ads/ad.service';
+
+
 import { UploadService } from './services/upload.service';
 import { LoginComponent } from './auth/login/login.component';
 
@@ -65,6 +71,7 @@ export function tokenGetter() {
     ListTagsComponent, AddTagComponent, EditTagComponent,
     ListRegionsComponent, AddRegionComponent, EditRegionComponent,
     ListPartnersComponent, AddPartnerComponent, EditPartnerComponent,
+    ListAdsComponent, AddAdComponent, EditAdComponent,
     DialogConfirm,
     LoginComponent,
     MigrationsComponent

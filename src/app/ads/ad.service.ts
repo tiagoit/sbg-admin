@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { City } from 'app/models';
+import { Ad } from './ad.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CityService implements Resolve<City> {
-  url = `${environment.API_URL}/cities`;
+export class AdService implements Resolve<Ad> {
+  url = `${environment.API_URL}/ads`;
 
   // Resolver for `/edit/:id` route.
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any>|Promise<any>|any {
@@ -26,8 +26,7 @@ export class CityService implements Resolve<City> {
     return this.http.get(`${this.url}/${id}`);
   }
   
-  update(data, oldName) {
-    data['oldName'] = oldName;
+  update(data) {
     return this.http.put(`${this.url}/${data._id}`, data);
   }
   

@@ -17,7 +17,7 @@ export class AddRegionComponent implements OnInit {
   constructor(
     private router: Router,
     private snackBar: MatSnackBar,
-    private appService: AppService,
+    public appService: AppService,
     private fb: FormBuilder,
     private service: RegionService) {
       this.fg = fb.group({

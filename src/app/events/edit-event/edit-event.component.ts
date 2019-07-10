@@ -35,7 +35,7 @@ export class EditEventComponent implements OnInit {
     translate: 'no',
     showToolbar: false
   };
-  
+  ad
   constructor(private route: ActivatedRoute, private service: EventService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, private orgService: OrgService, public uploadService: UploadService, public appService: AppService) {
     this.fg = fb.group({
       start: ['', Validators.required],
@@ -114,6 +114,7 @@ export class EditEventComponent implements OnInit {
         this.eventOrg = org;
         newEvent.orgCode = org.code;
         newEvent.orgName = org.name;
+        newEvent.orgImage = org.images[0];
         newEvent.cityCode = org.cityCode;
         newEvent.cityName = org.address.city;
       }

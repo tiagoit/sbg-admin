@@ -22,7 +22,7 @@ export class EditPartnerComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private service: PartnerService,
+    public service: PartnerService,
     private fb: FormBuilder,
     private router: Router,
     public snackBar: MatSnackBar,

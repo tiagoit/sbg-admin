@@ -96,6 +96,7 @@ export class AddEventComponent implements OnInit {
         this.eventOrg = org;
         this.newEvent.orgCode = org.code;
         this.newEvent.orgName = org.name;
+        this.newEvent.orgImage = org.images[0];
         this.newEvent.cityCode = org.cityCode;
         this.newEvent.cityName = org.address.city;
       }

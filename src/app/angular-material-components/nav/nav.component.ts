@@ -25,7 +25,8 @@ export class NavComponent {
     'partners': 'Parceiros',
     'orgs': 'Organizações',
     'tags': 'Tags',
-    'migrations': 'Migrações'
+    'migrations': 'Migrações',
+    'anuncios': 'Anúncios',
   }
 
   constructor(private router: Router, private breakpointObserver: BreakpointObserver, public auth: AuthService, public appService: AppService, private titleService: Title) {}

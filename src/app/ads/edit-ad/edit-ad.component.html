@@ -1,14 +1,90 @@
 <form class="form-container" [formGroup]="fg"> 
-  <h2>Editar Cidade</h2>
+  <h2>Editar Anúncio</h2>
 
-  <!-- NAME -->
+  <!-- TITLE -->
   <mat-form-field>
-    <input #firstInput matInput formControlName="name" placeholder="Nome" required tabindex="1">
-    <mat-error>Nome indisponível.</mat-error>
+    <input #firstInput matInput formControlName="title" placeholder="Título" required>
+  </mat-form-field>
+
+  <!-- DESCRIPTION -->
+  <mat-form-field>
+    <textarea matInput formControlName="description" placeholder="Descrição" rows="4"></textarea>
+  </mat-form-field>
+
+  <!-- TYPE -->
+  <mat-form-field>
+    <mat-select required formControlName="type">
+      <mat-option value="todo">O que fazer</mat-option>
+      <mat-option value="stay">Onde ficar</mat-option>
+      <mat-option value="eat">Onde comer</mat-option>
+      <mat-option value="promo">Promoção relâmpago</mat-option>
+      <mat-option value="util">Utilidade pública</mat-option>
+    </mat-select>
+    <mat-label>Tipo</mat-label>
+  </mat-form-field>
+
+  <!-- EMPRESA -->
+  <mat-form-field>
+    <input matInput formControlName="empresa" placeholder="Empresa">
+  </mat-form-field>
+
+  <!-- LINK -->
+  <mat-form-field>
+    <input matInput formControlName="ctaLink" placeholder="Call to action link">
+  </mat-form-field>
+
+  <!-- CTA LABEL -->
+  <mat-form-field>
+    <input matInput formControlName="ctaLabel" placeholder="Call to action">
+  </mat-form-field>
+
+  <!-- PHONE -->
+  <mat-form-field>
+    <input matInput formControlName="phone" placeholder="Telefone">
+  </mat-form-field>
+
+  <!-- WHATSAPP -->
+  <mat-form-field>
+    <input matInput formControlName="whatsapp" placeholder="Whatsapp">
+  </mat-form-field>
+
+  <!-- INSTAGRAM -->
+  <mat-form-field>
+    <input matInput formControlName="instagram" placeholder="Instagram">
+  </mat-form-field>
+
+  <!-- FACEBOOK -->
+  <mat-form-field>
+    <input matInput formControlName="facebook" placeholder="Facebook">
   </mat-form-field>
 
   <!-- STATUS -->
   <mat-checkbox class="mt-2" formControlName="status" tabindex="2">Ativo</mat-checkbox>
+
+  <!-- START -->
+  <mat-form-field>
+    <input matInput formControlName="start" [matDatepicker]="startPicker" placeholder="Início da veiculação" (focus)="startPicker.open()">
+    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+    <mat-datepicker #startPicker touchUi></mat-datepicker>
+  </mat-form-field>
+
+  <!-- END -->
+  <mat-form-field>
+    <input matInput formControlName="end" [matDatepicker]="endPicker" placeholder="Término da veiculação">
+    <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+    <mat-datepicker #endPicker></mat-datepicker>
+  </mat-form-field>
+
+  <div class="row images">
+    <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="img-wrapper">
+        <img [src]="imgPreview" *ngIf="imgPreview">
+        <img [src]="ad?.image" *ngIf="ad?.image && !imgPreview">
+      </div>
+      <input #file0 type="file" accept='image/*' (change)="preview(file0.files, 0)"/>
+      <button mat-raised-button color="primary" (click)="file0.click()" tabindex="8">Imagem 1</button>
+    </div>
+  </div>
 
   <button mat-raised-button color="accent" (click)="onSubmit()" [disabled]="!fg.valid || appService.isLoading()" tabindex="3">Atualizar</button>
   <button mat-raised-button color="primary" (click)="backToList()" [disabled]="appService.isLoading()" tabindex="4">Cancelar</button>

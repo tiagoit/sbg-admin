@@ -2,17 +2,17 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator, MatSort } from '@angular/material';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
-import { City } from "../../models";
+import { Ad } from "../ad.model";
 
 /**
- * Data source for the CitiesTable view. This class should
+ * Data source for the AdsTable view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class ListCitiesDataSource extends DataSource<City> {
-  data: City[] = [];
+export class ListAdsDataSource extends DataSource<Ad> {
+  data: Ad[] = [];
 
-  constructor(private paginator: MatPaginator, private sort: MatSort, private _data: City[]) {
+  constructor(private paginator: MatPaginator, private sort: MatSort, private _data: Ad[]) {
     super();
     this.data = _data;
   }
@@ -22,7 +22,7 @@ export class ListCitiesDataSource extends DataSource<City> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<City[]> {
+  connect(): Observable<Ad[]> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
     const dataMutations = [
@@ -49,7 +49,7 @@ export class ListCitiesDataSource extends DataSource<City> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data: City[]) {
+  private getPagedData(data: Ad[]) {
     const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
     return data.splice(startIndex, this.paginator.pageSize);
   }
@@ -58,7 +58,7 @@ export class ListCitiesDataSource extends DataSource<City> {
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getSortedData(data: City[]) {
+  private getSortedData(data: Ad[]) {
     if (!this.sort.active || this.sort.direction === '') {
       return data;
     }
@@ -66,7 +66,8 @@ export class ListCitiesDataSource extends DataSource<City> {
     return data.sort((a, b) => {
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
-        case 'name': return compare(a.name.toLowerCase(), b.name.toLowerCase(), isAsc);
+        case 'title': return compare(a.title.toLowerCase(), b.title.toLowerCase(), isAsc);
+        case 'type': return compare(a.type, b.type, isAsc);
         case 'status': return compare(a.status, b.status, isAsc);
         default: return 0;
       }
