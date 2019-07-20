@@ -83,6 +83,7 @@ export class EditAdComponent implements OnInit {
     newAd.whatsapp = this.fg.controls.whatsapp.value;
     newAd.instagram = this.fg.controls.instagram.value;
     newAd.facebook = this.fg.controls.facebook.value;
+    newAd.status = this.fg.controls.status.value;
     newAd.start = this.fg.controls.start.value;
     newAd.end = this.fg.controls.end.value;
     newAd.image = this.ad.image;
