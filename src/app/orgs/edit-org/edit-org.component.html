@@ -3,37 +3,38 @@
   <h2>Editar Organização</h2>
   <!-- NAME -->
   <mat-form-field>
-    <input #firstInput matInput formControlName="name" placeholder="Nome" required tabindex="1">
+    <input #firstInput matInput formControlName="name" placeholder="Nome" required>
     <mat-error>Nome indisponível.</mat-error>
   </mat-form-field>
 
   <!-- SITE -->
   <mat-form-field>
-    <input matInput formControlName="site" placeholder="Website" tabindex="2">
+    <input matInput formControlName="site" placeholder="Website">
   </mat-form-field>
 
   <!-- EMAIL -->
   <mat-form-field>
-    <input matInput formControlName="email" placeholder="Email" tabindex="3">
+    <input matInput formControlName="email" placeholder="Email">
   </mat-form-field>
 
   <!-- MOBILE -->
   <mat-form-field>
-    <input matInput formControlName="mobile" placeholder="Celular" tabindex="4">
+    <input matInput formControlName="mobile" placeholder="Celular">
   </mat-form-field>
 
   <!-- LAND -->
   <mat-form-field>
-    <input matInput formControlName="land" placeholder="Fixo" tabindex="5">
+    <input matInput formControlName="land" placeholder="Fixo">
   </mat-form-field>
 
   <!-- DESCRIPTION -->
-  <mat-form-field>
-    <textarea matInput formControlName="description" placeholder="Descrição" rows="4" tabindex="6"></textarea>
-  </mat-form-field>
+  <!-- <mat-form-field>
+    <textarea matInput formControlName="description" placeholder="Descrição" rows="4"></textarea>
+  </mat-form-field> -->
+  <angular-editor formControlName="description" [config]="editorConfig"></angular-editor>
 
   <!-- STATUS -->
-  <mat-checkbox formControlName="status" tabindex="7">Ativo</mat-checkbox>
+  <mat-checkbox formControlName="status">Ativo</mat-checkbox>
 
 
   <!-- 
@@ -48,7 +49,10 @@
         <img [src]="org?.images[0]" *ngIf="org?.images[0] && !imgPreview[0]">
       </div>
       <input #file0 type="file" accept='image/*' (change)="preview(file0.files, 0)"/>
-      <button mat-raised-button color="primary" (click)="file0.click()" tabindex="8">Imagem 1</button>
+      <div class="d-flex justify-content-between">
+        <button mat-stroked-button (click)="file0.click()">Upload</button>
+        <button mat-icon-button (click)="removeImage(0)"><mat-icon>clear</mat-icon></button>
+      </div>
     </div>
 
     <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
@@ -57,7 +61,10 @@
         <img [src]="org?.images[1]" *ngIf="org?.images[1] && !imgPreview[1]">
       </div>
       <input #file1 type="file" accept='image/*' (change)="preview(file1.files, 1)"/>
-      <button mat-raised-button color="primary" (click)="file1.click()" tabindex="9">Imagem 2</button>
+      <div class="d-flex justify-content-between">
+        <button mat-stroked-button (click)="file1.click()">Upload</button>
+        <button mat-icon-button (click)="removeImage(1)"><mat-icon>clear</mat-icon></button>
+      </div>
     </div>
 
     <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
@@ -66,7 +73,10 @@
         <img [src]="org?.images[2]" *ngIf="org?.images[2] && !imgPreview[2]">
       </div>
       <input #file2 type="file" accept='image/*' (change)="preview(file2.files, 2)"/>
-      <button mat-raised-button color="primary" (click)="file2.click()" tabindex="10">Imagem 3</button>
+      <div class="d-flex justify-content-between">
+        <button mat-stroked-button (click)="file2.click()">Upload</button>
+        <button mat-icon-button (click)="removeImage(2)"><mat-icon>clear</mat-icon></button>
+      </div>
     </div>
   
     <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
@@ -75,7 +85,10 @@
         <img [src]="org?.images[3]" *ngIf="org?.images[3] && !imgPreview[3]">
       </div>
       <input #file3 type="file" accept='image/*' (change)="preview(file3.files, 3)"/>
-      <button mat-raised-button color="primary" (click)="file3.click()" tabindex="11">Imagem 4</button>
+      <div class="d-flex justify-content-between">
+        <button mat-stroked-button (click)="file3.click()">Upload</button>
+        <button mat-icon-button (click)="removeImage(3)"><mat-icon>clear</mat-icon></button>
+      </div>
     </div>
   </div>  
 
@@ -87,7 +100,7 @@
   <h3>Endereço</h3>
   <!-- CITY -->
   <mat-form-field>
-    <mat-select required formControlName="city" tabindex="8">
+    <mat-select required formControlName="city">
       <mat-option *ngFor="let city of cities" [value]="city.name">{{city.name}}</mat-option>
     </mat-select>
     <mat-label>Cidade</mat-label>
@@ -95,27 +108,27 @@
 
   <!-- NEIGHBORHOOD -->
   <mat-form-field>
-    <input matInput formControlName="neighborhood" placeholder="Bairro" tabindex="9">
+    <input matInput formControlName="neighborhood" placeholder="Bairro">
   </mat-form-field>
 
   <!-- STREET -->
   <mat-form-field>
-    <input matInput formControlName="street" placeholder="Rua" tabindex="10">
+    <input matInput formControlName="street" placeholder="Rua">
   </mat-form-field>
 
   <!-- NUMBER -->
   <mat-form-field>
-    <input matInput formControlName="number" placeholder="Número" tabindex="11">
+    <input matInput formControlName="number" placeholder="Número">
   </mat-form-field>
 
   <!-- COMPLEMENT -->
   <mat-form-field>
-    <input matInput formControlName="complement" placeholder="Complemento" tabindex="12">
+    <input matInput formControlName="complement" placeholder="Complemento">
   </mat-form-field>
 
   <!-- ZIP_CODE -->
   <mat-form-field>
-    <input matInput formControlName="zipCode" placeholder="Código Postal" tabindex="13">
+    <input matInput formControlName="zipCode" placeholder="Código Postal">
   </mat-form-field>
   
   <!-- 
@@ -124,31 +137,31 @@
   <h3>Contato</h3>
   <!-- CONTACT_NAME -->
   <mat-form-field>
-    <input matInput formControlName="contact_name" placeholder="Nome do contato" tabindex="14">
+    <input matInput formControlName="contact_name" placeholder="Nome do contato">
   </mat-form-field>
 
   <!-- CONTACT_EMAIL -->
   <mat-form-field>
-    <input matInput formControlName="contact_email" placeholder="Email do contato" tabindex="15">
+    <input matInput formControlName="contact_email" placeholder="Email do contato">
   </mat-form-field>
 
   <!-- CONTACT_MOBILE -->
   <mat-form-field>
-    <input matInput formControlName="contact_mobile" placeholder="Celular do contato" tabindex="16">
+    <input matInput formControlName="contact_mobile" placeholder="Celular do contato">
   </mat-form-field>
 
   <!-- CONTACT_ROLE -->
   <mat-form-field>
-    <input matInput formControlName="contact_role" placeholder="Papel do contato" tabindex="17">
+    <input matInput formControlName="contact_role" placeholder="Papel do contato">
   </mat-form-field>
 
   <!-- CONTACT_NOTES -->
   <mat-form-field>
-    <input matInput formControlName="contact_notes" placeholder="Notas do contato" tabindex="18">
+    <input matInput formControlName="contact_notes" placeholder="Notas do contato">
   </mat-form-field>
 
-  <button mat-raised-button class="last" color="accent" (click)="onSubmit()" [disabled]="!fg.valid || appService.isLoading()" tabindex="19">Atualizar</button>
-  <button mat-raised-button class="mb-4" color="primary" (click)="backToList()" [disabled]="appService.isLoading()" tabindex="20">Cancelar</button>
+  <button mat-raised-button class="last" color="accent" (click)="onSubmit()" [disabled]="!fg.valid || appService.isLoading()">Atualizar</button>
+  <button mat-raised-button class="mb-4" color="primary" (click)="backToList()" [disabled]="appService.isLoading()">Cancelar</button>
 
 </form>
   

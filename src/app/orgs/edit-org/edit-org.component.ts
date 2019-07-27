@@ -8,6 +8,7 @@ import { CityService } from '../../cities/city.service';
 import { AppService } from 'app/services/app.service';
 import { UploadService } from 'app/services/upload.service';
 import { HttpEventType } from '@angular/common/http';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   templateUrl: './edit-org.component.html',
@@ -20,6 +21,15 @@ export class EditOrgComponent implements OnInit {
   cities: City[];
   imgPreview: any[] = [];
   files: File[] = [];
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: '240px',
+    minHeight: '120px',
+    placeholder: 'Descrição...',
+    translate: 'no',
+    showToolbar: false
+  };
 
   constructor(private route: ActivatedRoute, private service: OrgService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, private cityService: CityService, public appService: AppService, public uploadService: UploadService) {
     this.fg = fb.group({
@@ -162,6 +172,12 @@ export class EditOrgComponent implements OnInit {
       }
     }).add(() => this.appService.stopLoad('orgs-edit-image-'+idx));
     this.uploadService.delete(fileToDeleteUrl);
+  }
+
+  removeImage(idx: number) {
+    this.imgPreview[idx] = null;
+    this.files[idx] = null;
+    this.org.images[idx] = null;
   }
 
   backToList() {

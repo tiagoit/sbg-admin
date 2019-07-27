@@ -149,6 +149,11 @@ export class AddEventComponent implements OnInit {
     }).add(() => this.appService.stopLoad('events-add-image-'+idx));
   }
   
+  removeImage(idx: number) {
+    this.imgPreview[idx] = null;
+    this.files[idx] = null;
+  }
+
   backToList() {
     this.router.navigate([`/events`]);
   }

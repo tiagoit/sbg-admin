@@ -8,9 +8,10 @@
   </mat-form-field>
 
   <!-- DESCRIPTION -->
-  <mat-form-field>
+  <!-- <mat-form-field>
     <textarea matInput formControlName="description" placeholder="Descrição" rows="4"></textarea>
-  </mat-form-field>
+  </mat-form-field> -->
+  <angular-editor formControlName="description" [config]="editorConfig"></angular-editor>
 
   <!-- TYPE -->
   <mat-form-field>

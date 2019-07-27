@@ -35,7 +35,7 @@ export class EditEventComponent implements OnInit {
     translate: 'no',
     showToolbar: false
   };
-  ad
+
   constructor(private route: ActivatedRoute, private service: EventService, private fb: FormBuilder, private router: Router, public snackBar: MatSnackBar, private orgService: OrgService, public uploadService: UploadService, public appService: AppService) {
     this.fg = fb.group({
       start: ['', Validators.required],
@@ -78,7 +78,7 @@ export class EditEventComponent implements OnInit {
 
   fillForm() {
     this.fg.controls.start.setValue(this.event.start);
-    this.fg.controls.startTime.setValue(new Date(this.event.start).getUTCHours());
+    this.fg.controls.startTime.setValue(parseInt(moment(this.event.start).format('H')));
     this.fg.controls.org.setValue(this.event.cityCode+'|||'+this.event.orgCode);
     this.fg.controls.title.setValue(this.event.title);
     this.fg.controls.size.setValue(this.event.size);
@@ -104,10 +104,6 @@ export class EditEventComponent implements OnInit {
     newEvent.description = this.fg.controls.description.value;
     newEvent.featured  = this.fg.controls.featured.value;
     newEvent.tags    = this.fg.controls.tags.value;
-    newEvent.images = this.event.images;
-
-    newEvent.code = this.appService.encodeToUrl(newEvent.title).trim() + 
-                    moment(newEvent.start).format('-DD-MM-YYYY');
 
     this.orgs.forEach(org => {
       if((org.cityCode+'|||'+org.code) === this.fg.controls.org.value) {
@@ -119,6 +115,12 @@ export class EditEventComponent implements OnInit {
         newEvent.cityName = org.address.city;
       }
     });
+
+    newEvent.images = [];
+    for(let i of [0,1,2,3]) if(this.event.images[i]) newEvent.images.push(this.event.images[i]);
+    for(let img of this.eventOrg.images) if(img) newEvent.images.push(img);
+
+    newEvent.code = this.appService.encodeToUrl(newEvent.title).trim() + moment(newEvent.start).format('-DD-MM-YYYY');
     return newEvent;
   }
 
@@ -133,10 +135,6 @@ export class EditEventComponent implements OnInit {
   onSubmit() {
     this.appService.startLoad('events-edit');
     let newEvent = this.buildEvent();
-
-    this.eventOrg.images.forEach(image => {
-      if(image) newEvent.images.push(image);
-    });
 
     if(newEvent.title !== this.event.title || this.changedOrg(newEvent) || this.changedCode(newEvent)) {
       this.service.checkCode(newEvent.code, newEvent.orgCode, newEvent.cityCode).subscribe((result) => {
@@ -184,6 +182,12 @@ export class EditEventComponent implements OnInit {
       }
     }).add(() => this.appService.stopLoad('events-edit-image-'+idx));
     this.uploadService.delete(fileToDeleteUrl);
+  }
+
+  removeImage(idx: number) {
+    this.imgPreview[idx] = null;
+    this.files[idx] = null;
+    this.event.images[idx] = null;
   }
 
   backToList() {

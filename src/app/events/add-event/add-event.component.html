@@ -62,25 +62,37 @@
     <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
       <div class="img-wrapper"><img [src]="imgPreview[0]" *ngIf="imgPreview[0]"></div>
       <input #file0 type="file" accept='image/*' (change)="preview(file0.files, 0)"/>
-      <button mat-raised-button color="primary" (click)="file0.click()">Imagem 1</button>
+      <div class="d-flex justify-content-between">
+        <button mat-stroked-button (click)="file0.click()">Upload</button>
+        <button mat-icon-button (click)="removeImage(0)"><mat-icon>clear</mat-icon></button>
+      </div>
     </div>
 
     <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
       <div class="img-wrapper"><img [src]="imgPreview[1]" *ngIf="imgPreview[1]"></div>
       <input #file1 type="file" accept='image/*' (change)="preview(file1.files, 1)"/>
-      <button mat-raised-button color="primary" (click)="file1.click()">Imagem 2</button>
+      <div class="d-flex justify-content-between">
+        <button mat-stroked-button (click)="file1.click()">Upload</button>
+        <button mat-icon-button (click)="removeImage(1)"><mat-icon>clear</mat-icon></button>
+      </div>
     </div>
 
     <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
       <div class="img-wrapper"><img [src]="imgPreview[2]" *ngIf="imgPreview[2]"></div>
       <input #file2 type="file" accept='image/*' (change)="preview(file2.files, 2)"/>
-      <button mat-raised-button color="primary" (click)="file2.click()">Imagem 3</button>
+      <div class="d-flex justify-content-between">
+        <button mat-stroked-button (click)="file2.click()">Upload</button>
+        <button mat-icon-button (click)="removeImage(2)"><mat-icon>clear</mat-icon></button>
+      </div>
     </div>
   
     <div class="image-col col-12 col-sm-6 col-md-4 col-lg-3">
       <div class="img-wrapper"><img [src]="imgPreview[3]" *ngIf="imgPreview[3]"></div>
       <input #file3 type="file" accept='image/*' (change)="preview(file3.files, 3)"/>
-      <button mat-raised-button color="primary" (click)="file3.click()">Imagem 4</button>
+      <div class="d-flex justify-content-between">
+        <button mat-stroked-button (click)="file3.click()">Upload</button>
+        <button mat-icon-button (click)="removeImage(3)"><mat-icon>clear</mat-icon></button>
+      </div>
     </div>
   </div>
 

@@ -7,6 +7,7 @@ import { AppService } from 'app/services/app.service';
 import { Ad } from '../ad.model';
 import { UploadService } from 'app/services/upload.service';
 import { HttpEventType } from '@angular/common/http';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-edit-ad',
@@ -19,6 +20,15 @@ export class EditAdComponent implements OnInit {
   fg: FormGroup;
   imgPreview: any;
   files: File[] = [];
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: '240px',
+    minHeight: '120px',
+    placeholder: 'Descrição...',
+    translate: 'no',
+    showToolbar: false
+  };
 
   constructor(
     private route: ActivatedRoute,

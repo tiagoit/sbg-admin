@@ -101,7 +101,8 @@ export function tokenGetter() {
         ]
       }
     }),
-    AngularEditorModule
+    AngularEditorModule,
+    
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},

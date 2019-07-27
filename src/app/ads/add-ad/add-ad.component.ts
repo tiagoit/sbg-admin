@@ -7,6 +7,7 @@ import { AppService } from 'app/services/app.service';
 import { UploadService } from 'app/services/upload.service';
 import { HttpEventType } from '@angular/common/http';
 import { Ad } from '../ad.model';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-add-ad',
@@ -19,6 +20,15 @@ export class AddAdComponent implements OnInit {
   imgPreview: any[] = [];
   files: File[] = [];
   newAd: Ad = new Ad();
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: '240px',
+    minHeight: '120px',
+    placeholder: 'Descrição...',
+    translate: 'no',
+    showToolbar: false
+  };
 
   constructor(
     fb: FormBuilder,
